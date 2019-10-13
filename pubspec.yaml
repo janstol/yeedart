@@ -1,0 +1,14 @@
+name: yeedart
+description: Dart library for controlling Yeelight products over LAN.
+version: 0.0.1
+homepage: https://github.com/janstol/yeedart
+author: Jan Štol <honzastol@gmail.com>
+
+environment:
+  sdk: '>=2.5.0 <3.0.0'
+
+dependencies:
+  meta: ^1.1.7
+
+dev_dependencies:
+  test: ^1.9.1

@@ -1,0 +1,48 @@
+import 'dart:convert';
+
+/// Response to [Command].
+class YeeCommandResponse {
+  /// Same as sent id of the sent command.
+  final int id;
+
+  /// If command is successfully executed, result will be returned.
+  final List<dynamic> result;
+
+  /// If command fails, error will be returned.
+  final Map<String, dynamic> error;
+
+  /// Creates [YeeCommandResponse] from parsed JSON.
+  YeeCommandResponse.fromJson(Map<String, dynamic> parsed)
+      : id = parsed["id"] as int,
+        result = parsed["result"] as List,
+        error = parsed["error"] as Map<String, dynamic>;
+
+  /// Indicates whether command was successfully executed or not.
+  bool get hasError => error != null;
+
+  String _toJson() {
+    return hasError
+        ? json.encode(<String, dynamic>{
+            "id": id,
+            "error": error,
+          })
+        : json.encode(<String, dynamic>{
+            "id": id,
+            "result": result,
+          });
+  }
+
+  @override
+  int get hashCode => id.hashCode ^ result.hashCode;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        other is YeeCommandResponse &&
+            id == other.id &&
+            result.toString() == other.result.toString();
+  }
+
+  @override
+  String toString() => 'CommandResponse: ${_toJson()}';
+}
