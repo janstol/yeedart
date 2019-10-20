@@ -1,13 +1,13 @@
-import 'package:yeedart/src/domain/entity/yee_command.dart';
-import 'package:yeedart/src/domain/entity/yee_command_response.dart';
+import 'package:yeedart/src/command/command.dart';
+import 'package:yeedart/src/response/command_response.dart';
 
 /// Interface that describes command sender.
 ///
 /// To create custom command sender, implement this class.
 /// Default implementation is [TCPCommandSender].
-abstract class YeeCommandSender {
+abstract class CommandSender {
   /// Sends command to the device.
-  Future<YeeCommandResponse> sendCommand(YeeCommand command);
+  Future<CommandResponse> sendCommand(Command command);
 
   /// Closes connection to the device.
   void close();

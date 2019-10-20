@@ -1,9 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:yeedart/src/domain/entity/yee_device.dart';
-import 'package:yeedart/src/data/parser.dart';
-import 'package:yeedart/src/domain/entity/yee_discovery_response.dart';
+import 'package:yeedart/src/response/discovery_response.dart';
+import 'package:yeedart/src/util/parser.dart';
 
 class Yeelight {
   static const _address = "239.255.255.250";
@@ -11,6 +10,8 @@ class Yeelight {
 
   /// Sends search message to discover Yeelight devices.
   ///
+  /// Returns list of [DiscoveryResponse] which you can use to establish a
+  /// connection to device.
   ///
   /// Message should follow this format:
   /// ```
@@ -30,7 +31,7 @@ class Yeelight {
   /// * Each line should be terminated by `\r\n`.
   ///
   /// Any messages that doesn't follow these rules will be silently dropped.
-  static Future<List<YeeDevice>> dicoverDevices({
+  static Future<List<DiscoveryResponse>> discover({
     Duration timeout = const Duration(seconds: 2),
     String address = _address,
     int port = _port,
@@ -42,7 +43,7 @@ class Yeelight {
         "MAN: \"ssdp:discover\"\r\n"
         "ST: wifi_bulb\r\n";
 
-    final devices = <YeeDevice>[];
+    final responses = <DiscoveryResponse>[];
 
     final udpSocket =
         socket ?? await RawDatagramSocket.bind(InternetAddress.anyIPv4, port);
@@ -60,16 +61,15 @@ class Yeelight {
         if (datagram != null && datagram.data.isNotEmpty) {
           //print(utf8.decode(datagram.data));
           final map = Parser.parseDiscoveryResponse(utf8.decode(datagram.data));
-          final response = YeeDiscoveryResponse.fromMap(map);
-          final device = YeeDevice.fromResponse(response);
+          final response = DiscoveryResponse.fromMap(map);
 
-          if (!devices.contains(device)) {
-            devices.add(device);
+          if (!responses.contains(response)) {
+            responses.add(response);
           }
         }
       }
     }
 
-    return devices;
+    return responses;
   }
 }

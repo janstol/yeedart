@@ -1,7 +1,7 @@
 import 'dart:io';
 
 /// Response send by devices after discovery message.
-class YeeDiscoveryResponse {
+class DiscoveryResponse {
   /// Status refresh interval. Smart LED will send another advertisement message
   /// after that amount of seconds.
   ///
@@ -138,7 +138,7 @@ class YeeDiscoveryResponse {
   /// ```
   final String rawResponse;
 
-  YeeDiscoveryResponse({
+  DiscoveryResponse({
     this.refreshInterval,
     this.date,
     this.ext,
@@ -159,7 +159,7 @@ class YeeDiscoveryResponse {
     this.rawResponse,
   });
 
-  YeeDiscoveryResponse.fromMap(Map<String, String> response)
+  DiscoveryResponse.fromMap(Map<String, String> response)
       : refreshInterval = int.tryParse(response["refresh_interval"]),
         date = response["date"],
         ext = response["ext"],
@@ -185,11 +185,11 @@ class YeeDiscoveryResponse {
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        other is YeeDiscoveryResponse && rawResponse == other.rawResponse;
+        other is DiscoveryResponse && rawResponse == other.rawResponse;
   }
-  
+
   @override
-  String toString() => "RawYeelightResponse(refreshInterval: $refreshInterval, "
+  String toString() => "DiscoveryResponse(refreshInterval: $refreshInterval, "
       "ipAddress: $address, port: $port, id: $id, model: $model, "
       "firmwareVersion: $firmwareVersion, "
       "supportedControls: <$supportedControls>, powered: $powered, "

@@ -1,35 +1,33 @@
 import 'dart:convert';
 
 import 'package:meta/meta.dart';
+import 'package:yeedart/src/scene/scene_class.dart';
 
 /// Commands are sent by [CommandSender] to control Yeelight device.
 ///
-/// [id] - integer filled by message sender. It will be echoed back in response
-/// message. This is to help request sender to correlate request and response.
-/// If no [id] is provided, [hashCode] is used as id.
-///
-/// [method] - specifies which control method should be invoked. The value
-/// should be selected from [YeelightDevice.supportedMethods], otherwise
-/// the message may be rejected by device. See [YeeCommandMethods].
-///
-/// [parameters] - list of parameters, method specific.
+/// * [id] - integer filled by message sender. It will be echoed back in
+/// response message. This is to help request sender to correlate request and
+/// response. If no [id] is provided, [hashCode] is used as id.
+/// * [method] - specifies which control method should be invoked.
+/// See [CommandMethods].
+/// * [parameters] - list of parameters, method specific.
 ///
 /// NOTE: "bg" methods are used to control background light. These commands are
 /// only supported on lights that are equipped with a background light.
-class YeeCommand {
+class Command {
   int id;
   final String method;
   final List<dynamic> parameters;
 
-  YeeCommand(this.id, this.method, this.parameters);
+  Command(this.id, this.method, this.parameters);
 
   /// Command to retrieve current property of the device.
   ///
   /// * [parameters] - a list of property names and the response contains
   /// a list of corresponding property values. If the requested property name is
   /// not recognized by device, then an empty string value will be returned.
-  YeeCommand.getProp({this.id, @required this.parameters})
-      : method = YeeCommandMethods.getProp;
+  Command.getProp({this.id, @required this.parameters})
+      : method = CommandMethods.getProp;
 
   /// Command to set color temperature of the device (main light).
   ///
@@ -39,28 +37,28 @@ class YeeCommand {
   /// supported duration is 30 milliseconds.
   ///
   /// This command is accepted only if the device is in "ON" state.
-  YeeCommand.setColorTemperature({
+  Command.setColorTemperature({
     this.id,
     @required int colorTemperature,
     @required String effect,
     @required int duration,
-  })  : method = YeeCommandMethods.setCtAbx,
+  })  : method = CommandMethods.setCtAbx,
         parameters = <dynamic>[colorTemperature, effect, duration];
 
   /// Command to set color of the device (main light).
   ///
   /// * [rgb] - the target color. It should be represented as integer in range
   /// from 0 to 16777215 (hex:0xFFFFFF)
-  /// * [effect] - same as in [YeeCommand.setColorTemperature].
-  /// * [duration] - same as in [YeeCommand.setColorTemperature].
+  /// * [effect] - same as in [Command.setColorTemperature].
+  /// * [duration] - same as in [Command.setColorTemperature].
   ///
   /// This command is accepted only if the device is in "ON" state.
-  YeeCommand.setRGB({
+  Command.setRGB({
     this.id,
     @required int rgb,
     @required String effect,
     @required int duration,
-  })  : method = YeeCommandMethods.setRGB,
+  })  : method = CommandMethods.setRGB,
         parameters = <dynamic>[rgb, effect, duration];
 
   /// Command to set color of the device (main light).
@@ -68,40 +66,40 @@ class YeeCommand {
   /// * [hue] - the target hue value. It should be in range from 0 to 359.
   /// * [saturation] - the target saturation value.
   /// It should be in range from 0 to 100.
-  /// * [effect] - same as in [YeeCommand.setColorTemperature].
-  /// * [duration] - same as in [YeeCommand.setColorTemperature].
+  /// * [effect] - same as in [Command.setColorTemperature].
+  /// * [duration] - same as in [Command.setColorTemperature].
   ///
   /// This command is accepted only if the device is in "ON" state.
-  YeeCommand.setHSV({
+  Command.setHSV({
     this.id,
     @required int hue,
     @required int saturation,
     @required String effect,
     @required int duration,
-  })  : method = YeeCommandMethods.setHSV,
+  })  : method = CommandMethods.setHSV,
         parameters = <dynamic>[hue, saturation, effect, duration];
 
   /// Command to set brightness of the device (main light).
   ///
   /// * [brightness] - the target brightness. Ranges from 1 to 100, where
   /// 1 means minimum brightness, 100 means maximum brightness.
-  /// * [effect] - same as in [YeeCommand.setColorTemperature].
-  /// * [duration] - same as in [YeeCommand.setColorTemperature].
+  /// * [effect] - same as in [Command.setColorTemperature].
+  /// * [duration] - same as in [Command.setColorTemperature].
   ///
   /// This command is accepted only if the device is in "ON" state.
-  YeeCommand.setBrightness({
+  Command.setBrightness({
     this.id,
     @required int brightness,
     @required String effect,
     @required int duration,
-  })  : method = YeeCommandMethods.setBright,
+  })  : method = CommandMethods.setBright,
         parameters = <dynamic>[brightness, effect, duration];
 
   /// Command to switch on or off the device (main light).
   ///
   /// * [power] - only "on" or "off" values.
-  /// * [effect] - same as in [YeeCommand.setColorTemperature].
-  /// * [duration] - same as in [YeeCommand.setColorTemperature].
+  /// * [effect] - same as in [Command.setColorTemperature].
+  /// * [duration] - same as in [Command.setColorTemperature].
   /// * [mode] (optional)
   ///   * 0 - normal turn on operation (default value)
   ///   * 1 - turn on and switch to color temperature mode
@@ -110,28 +108,28 @@ class YeeCommand {
   ///   * 4 - turn on and switch to color flow mode
   ///   * 5 - turn on and switch to Night light mode (ceiling light only).
   ///
-  YeeCommand.setPower({
+  Command.setPower({
     this.id,
     @required String power,
     @required String effect,
     @required int duration,
     int mode,
-  })  : method = YeeCommandMethods.setPower,
+  })  : method = CommandMethods.setPower,
         parameters = <dynamic>[power, effect, duration, if (mode != null) mode];
 
   /// Command to toggle the device (main light).
   ///
   /// This method is defined because sometimes user may just want to flip
   /// the state without knowing the current state.
-  YeeCommand.toggle({this.id})
-      : method = YeeCommandMethods.toggle,
+  Command.toggle({this.id})
+      : method = CommandMethods.toggle,
         parameters = const <void>[];
 
   /// Command to save current state of main light to persistent memory.
   ///
   /// This command is accepted only if the device is in "ON" state.
-  YeeCommand.setDefault({this.id})
-      : method = YeeCommandMethods.setDefault,
+  Command.setDefault({this.id})
+      : method = CommandMethods.setDefault,
         parameters = const <void>[];
 
   /// Command to start a color flow (main light).
@@ -152,19 +150,17 @@ class YeeCommand {
   ///   When this value is -1, brightness in this tuple is ignored.
   ///
   /// This command is accepted only if the device is in "ON" state.
-  ///
-  /// TODO
-  YeeCommand.startColorFlow({
+  Command.startColorFlow({
     this.id,
     @required int count,
     @required int action,
     @required String flowExpression,
-  })  : method = YeeCommandMethods.startCF,
+  })  : method = CommandMethods.startCF,
         parameters = <dynamic>[count, action, flowExpression];
 
   /// Command to stop a running color flow.
-  YeeCommand.stopColorFlow({this.id})
-      : method = YeeCommandMethods.stopCF,
+  Command.stopColorFlow({this.id})
+      : method = CommandMethods.stopCF,
         parameters = <void>[];
 
   /// Command to set the device directly to specified state. If the device
@@ -180,15 +176,23 @@ class YeeCommand {
   ///   start a timer to turn off the light after specified number of minutes.
   /// * [val1], [val2], [val3] - class specific values.
   ///
-  /// TODO
-  YeeCommand.setScene({
+  Command.setScene({
     this.id,
     @required String cls,
     @required int val1,
     @required int val2,
     String val3,
-  })  : method = YeeCommandMethods.setScene,
-        parameters = <dynamic>[cls, val1, val2, if (val3 != null) val3];
+  })  : method = CommandMethods.setScene,
+        parameters = <dynamic>[
+          cls,
+          val1,
+          val2,
+          if (val3 != null)
+            if (cls == const SceneClass.hsv().value)
+              int.tryParse(val3)
+            else
+              val3,
+        ];
 
   /// Command to start a timer job on the device.
   ///
@@ -196,25 +200,25 @@ class YeeCommand {
   /// * [value] is the length of the timer in minutes.
   ///
   /// This command is accepted only if the device is in "ON" state.
-  YeeCommand.cronAdd({this.id, int type = 0, @required int value})
-      : method = YeeCommandMethods.cronAdd,
+  Command.cronAdd({this.id, int type = 0, @required int value})
+      : method = CommandMethods.cronAdd,
         parameters = <int>[type, value];
 
   /// Command to retrieve the settings for the current cron job of the specified
   /// type.
   ///
   /// * [type] - type of the cron job (currently only 0,
-  /// see [YeeCommand.cronAdd]).
-  YeeCommand.cronGet({this.id, int type = 0})
-      : method = YeeCommandMethods.cronGet,
+  /// see [Command.cronAdd]).
+  Command.cronGet({this.id, int type = 0})
+      : method = CommandMethods.cronGet,
         parameters = <dynamic>[type];
 
   /// Command to stop the specific cron job.
   ///
   /// * [type] - type of the cron job (currently only 0,
-  /// see [YeeCommand.cronAdd]).
-  YeeCommand.cronDelete({this.id, int type = 0})
-      : method = YeeCommandMethods.cronDel,
+  /// see [Command.cronAdd]).
+  Command.cronDelete({this.id, int type = 0})
+      : method = CommandMethods.cronDel,
         parameters = <dynamic>[type];
 
   /// Command to change brightness, color temperature or color without knowing
@@ -232,11 +236,11 @@ class YeeCommand {
   ///   * `"color"` - adjust color
   ///
   /// When [property] is `"color"`, the [action] can be only `"circle"`.
-  YeeCommand.setAdjust({
+  Command.setAdjust({
     this.id,
     @required String action,
     @required String property,
-  })  : method = YeeCommandMethods.setAdjust,
+  })  : method = CommandMethods.setAdjust,
         parameters = <String>[action, property];
 
   /// Command to start or stop music mode (main light).
@@ -247,12 +251,12 @@ class YeeCommand {
   /// * [action] - 0 to turn off music mode, 1 to turn on music mode.
   /// * [host] - the IP adress of the music server.
   /// * [port] - the TCP port music application is listening on.
-  YeeCommand.setMusic({
+  Command.setMusic({
     this.id,
     @required int action,
     @required String host,
     @required int port,
-  })  : method = YeeCommandMethods.setMusic,
+  })  : method = CommandMethods.setMusic,
         parameters = <dynamic>[action, host, port];
 
   /// Command to set name for the device. The name will be stored on the device
@@ -261,201 +265,201 @@ class YeeCommand {
   /// When using Yeelight official App, the device name is stored on cloud.
   /// This method instead store the name on persistent memory of the device,
   /// so the two names could be different.
-  YeeCommand.setName({this.id, @required String name})
-      : method = YeeCommandMethods.setName,
+  Command.setName({this.id, @required String name})
+      : method = CommandMethods.setName,
         parameters = <String>[name];
 
   /// Command to set color of the background light.
   ///
-  /// see [YeeCommand.setRGB]
-  YeeCommand.bgSetRGB({
+  /// see [Command.setRGB]
+  Command.bgSetRGB({
     this.id,
     @required int rgb,
     @required String effect,
     @required int duration,
-  })  : method = YeeCommandMethods.bgSetRGB,
+  })  : method = CommandMethods.bgSetRGB,
         parameters = <dynamic>[rgb, effect, duration];
 
   /// Command to set color of the background light.
   ///
-  /// see [YeeCommand.setHSV]
-  YeeCommand.bgSetHSV({
+  /// see [Command.setHSV]
+  Command.bgSetHSV({
     this.id,
     @required int hue,
     @required int saturation,
     @required String effect,
     @required int duration,
-  })  : method = YeeCommandMethods.bgSetHSV,
+  })  : method = CommandMethods.bgSetHSV,
         parameters = <dynamic>[hue, saturation, effect, duration];
 
   /// Command to set color temperature of the background light.
   ///
-  /// see [YeeCommand.setColorTemperature]
-  YeeCommand.bgSetColorTemperature({
+  /// see [Command.setColorTemperature]
+  Command.bgSetColorTemperature({
     this.id,
     @required int colorTemperature,
     @required String effect,
     @required int duration,
-  })  : method = YeeCommandMethods.bgSetCtAbx,
+  })  : method = CommandMethods.bgSetCtAbx,
         parameters = <dynamic>[colorTemperature, effect, duration];
 
   /// Command to start a color flow (background light).
   ///
-  /// see [YeeCommand.startColorFlow]
-  YeeCommand.bgStartColorFlow({
+  /// see [Command.startColorFlow]
+  Command.bgStartColorFlow({
     this.id,
     @required int count,
     @required int action,
     @required String flowExpression,
-  })  : method = YeeCommandMethods.bgStartCF,
+  })  : method = CommandMethods.bgStartCF,
         parameters = <dynamic>[count, action, flowExpression];
 
   /// Command to stop a running color flow (background light).
-  YeeCommand.bgStopColorFlow({this.id})
-      : method = YeeCommandMethods.bgStopCF,
+  Command.bgStopColorFlow({this.id})
+      : method = CommandMethods.bgStopCF,
         parameters = <void>[];
 
   /// Command to set the background light directly to specified state.
   ///
-  /// see [YeeCommand.setScene]
-  YeeCommand.bgSetScene({
+  /// see [Command.setScene]
+  Command.bgSetScene({
     this.id,
     @required String cls,
     @required int val1,
     @required int val2,
     String val3,
-  })  : method = YeeCommandMethods.bgSetScene,
+  })  : method = CommandMethods.bgSetScene,
         parameters = <dynamic>[cls, val1, val2, if (val3 != null) val3];
 
   /// Command to save current state of background light to persistent memory.
   ///
   /// This command is accepted only if the device is in "ON" state.
-  YeeCommand.bgSetDefault({this.id})
-      : method = YeeCommandMethods.bgSetDefault,
+  Command.bgSetDefault({this.id})
+      : method = CommandMethods.bgSetDefault,
         parameters = const <void>[];
 
   /// Command to switch on or off the background light.
   ///
-  /// see [YeeCommand.setPower]
-  YeeCommand.bgSetPower({
+  /// see [Command.setPower]
+  Command.bgSetPower({
     this.id,
     @required String power,
     @required String effect,
     @required int duration,
     int mode,
-  })  : method = YeeCommandMethods.bgSetPower,
+  })  : method = CommandMethods.bgSetPower,
         parameters = <dynamic>[power, effect, duration, if (mode != null) mode];
 
   /// Command to set brightness of the background light.
   ///
-  /// see [YeeCommand.setBrightness]
-  YeeCommand.bgSetBrightness({
+  /// see [Command.setBrightness]
+  Command.bgSetBrightness({
     this.id,
     @required int brightness,
     @required String effect,
     @required int duration,
-  })  : method = YeeCommandMethods.bgSetBright,
+  })  : method = CommandMethods.bgSetBright,
         parameters = <dynamic>[brightness, effect, duration];
 
   /// Command to change brightness, color temperature or color without knowing
   /// current value (background light).
   ///
-  /// see [YeeCommand.setAdjust]
-  YeeCommand.bgSetAdjust({
+  /// see [Command.setAdjust]
+  Command.bgSetAdjust({
     this.id,
     @required String action,
     @required String property,
-  })  : method = YeeCommandMethods.bgSetAdjust,
+  })  : method = CommandMethods.bgSetAdjust,
         parameters = <String>[action, property];
 
   /// Command to toggle the background light.
   ///
   /// This method is defined because sometimes user may just want to flip
   /// the state without knowing the current state.
-  YeeCommand.bgToggle({this.id})
-      : method = YeeCommandMethods.bgToggle,
+  Command.bgToggle({this.id})
+      : method = CommandMethods.bgToggle,
         parameters = const <void>[];
 
   /// Command to toggle the main and background light at the same time.
   ///
-  /// When there is main light and background light, [YeeCommand.toggle] is used
-  /// to toggle main light, [YeeCommand.bgToggle] is used to toggle background
-  /// light while [YeeCommand.devToggle] is used to toggle both light
+  /// When there is main light and background light, [Command.toggle] is used
+  /// to toggle main light, [Command.bgToggle] is used to toggle background
+  /// light while [Command.devToggle] is used to toggle both light
   /// at the same time.
-  YeeCommand.devToggle({this.id})
-      : method = YeeCommandMethods.devToggle,
+  Command.devToggle({this.id})
+      : method = CommandMethods.devToggle,
         parameters = <void>[];
 
   /// Command to adjust the brightness by specified percentage within specified
   /// duration.
   ///
   /// * [percentage] - percentage to be adjusted. Range is from -100 to 100.
-  /// * [duration] - see [YeeCommand.setColorTemperature]
+  /// * [duration] - see [Command.setColorTemperature]
   ///
-  YeeCommand.adjustBrightness({
+  Command.adjustBrightness({
     this.id,
     @required int percentage,
     @required int duration,
-  })  : method = YeeCommandMethods.adjustBright,
+  })  : method = CommandMethods.adjustBright,
         parameters = <int>[percentage, duration];
 
   /// Command to adjust the color temperature by specified percentage within
   /// specified duration.
   ///
   /// * [percentage] - percentage to be adjusted. Range is from -100 to 100.
-  /// * [duration] - see [YeeCommand.setColorTemperature]
+  /// * [duration] - see [Command.setColorTemperature]
   ///
-  YeeCommand.adjustColorTemperature({
+  Command.adjustColorTemperature({
     this.id,
     @required int percentage,
     @required int duration,
-  })  : method = YeeCommandMethods.adjustCT,
+  })  : method = CommandMethods.adjustCT,
         parameters = <int>[percentage, duration];
 
   /// Command to adjust the color  within specified duration.
   ///
   /// * [percentage] - percentage to be adjusted. Range is from -100 to 100.
-  /// * [duration] - see [YeeCommand.setColorTemperature]
+  /// * [duration] - see [Command.setColorTemperature]
   ///
   /// NOTE: The percentage parameter will be ignored and the color is
   /// internally defined and can’t specified.
-  YeeCommand.adjustColor({
+  Command.adjustColor({
     this.id,
     @required int percentage,
     @required int duration,
-  })  : method = YeeCommandMethods.adjustColor,
+  })  : method = CommandMethods.adjustColor,
         parameters = <int>[percentage, duration];
 
   /// Command to adjust the brightness by specified percentage within specified
   /// duration (background light).
   ///
-  /// see [YeeCommand.adjustBrightness]
-  YeeCommand.bgAdjustBrightness({
+  /// see [Command.adjustBrightness]
+  Command.bgAdjustBrightness({
     this.id,
     @required int percentage,
     @required int duration,
-  })  : method = YeeCommandMethods.bgAdjustBright,
+  })  : method = CommandMethods.bgAdjustBright,
         parameters = <int>[percentage, duration];
 
   /// Command to adjust the color temperature by specified percentage within
   /// specified duration (background light).
   ///
-  /// see [YeeCommand.adjustColorTemperature]
-  YeeCommand.bgAdjustColorTemperature({
+  /// see [Command.adjustColorTemperature]
+  Command.bgAdjustColorTemperature({
     this.id,
     @required int percentage,
     @required int duration,
-  })  : method = YeeCommandMethods.bgAdjustCT,
+  })  : method = CommandMethods.bgAdjustCT,
         parameters = <int>[percentage, duration];
 
   /// Command to adjust the color  within specified duration (background light).
   ///
-  /// see [YeeCommand.adjustColor]
-  YeeCommand.bgAdjustColor({
+  /// see [Command.adjustColor]
+  Command.bgAdjustColor({
     this.id,
     @required int percentage,
     @required int duration,
-  })  : method = YeeCommandMethods.bgAdjustColor,
+  })  : method = CommandMethods.bgAdjustColor,
         parameters = <int>[percentage, duration];
 
   /// Command message. Used when sending command.
@@ -474,7 +478,7 @@ class YeeCommand {
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        other is YeeCommand &&
+        other is Command &&
             id == other.id &&
             method == other.method &&
             parameters.toString() == other.parameters.toString();
@@ -487,7 +491,7 @@ class YeeCommand {
 /// All methods that can be used to control Yeelight devices.
 ///
 /// Note that some devices does not support all methods.
-abstract class YeeCommandMethods {
+abstract class CommandMethods {
   static const getProp = "get_prop";
   static const setCtAbx = "set_ct_abx";
   static const setRGB = "set_rgb";

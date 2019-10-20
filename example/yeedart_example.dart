@@ -1,25 +1,23 @@
 import 'dart:io';
 
-import 'package:yeedart/src/domain/entity/yee_device.dart';
 import 'package:yeedart/yeedart.dart';
 
 Future<void> main() async {
-  //final devices = await Yeelight.dicoverDevices();
-  //final device = devices.first;
-  final device = YeeDevice(
+//  final responses = await Yeelight.discover();
+//  final response = responses.first;
+//
+//  final device = YeeDevice(address: response.address, port: response.port);
+
+  final device = Device(
     address: InternetAddress("192.168.1.183"),
     port: 55443,
   );
 
-  print(device);
-
   print(await device.getProps(id: 1, parameters: [
-    "id",
     "name",
     "model",
     "fw_ver",
     "power",
-    "support",
     "color_mode",
     "bright",
     "ct",
@@ -28,5 +26,9 @@ Future<void> main() async {
     "sat",
   ]));
 
+  //await device.turnOn();
+  //await device.turnOff();
+  //await device.setScene(scene: Scene.color(color: Colors.red, brightness: 20));
+  //await device.stopFlow();
   device.disconnect();
 }

@@ -1,5 +1,4 @@
 class Parser {
-
   /// Uses regex to parse discovery response.
   static Map<String, String> parseDiscoveryResponse(String response) {
     final regExp = RegExp(

@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 /// Response to [Command].
-class YeeCommandResponse {
+class CommandResponse {
   /// Same as sent id of the sent command.
   final int id;
 
@@ -11,8 +11,8 @@ class YeeCommandResponse {
   /// If command fails, error will be returned.
   final Map<String, dynamic> error;
 
-  /// Creates [YeeCommandResponse] from parsed JSON.
-  YeeCommandResponse.fromJson(Map<String, dynamic> parsed)
+  /// Creates [CommandResponse] from parsed JSON.
+  CommandResponse.fromJson(Map<String, dynamic> parsed)
       : id = parsed["id"] as int,
         result = parsed["result"] as List,
         error = parsed["error"] as Map<String, dynamic>;
@@ -38,7 +38,7 @@ class YeeCommandResponse {
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        other is YeeCommandResponse &&
+        other is CommandResponse &&
             id == other.id &&
             result.toString() == other.result.toString();
   }

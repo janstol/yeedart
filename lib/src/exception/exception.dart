@@ -1,14 +1,14 @@
 /// Generic Yeelight exception.
-abstract class YeeException implements Exception {
+abstract class YeelightException implements Exception {
   @override
   String toString() => "YeelightException";
 }
 
 /// Exception thrown when TCP connection to device has failed.
-class YeeConnectionException implements YeeException {
+class YeelightConnectionException implements YeelightException {
   final String message;
 
-  const YeeConnectionException(this.message);
+  const YeelightConnectionException(this.message);
 
   @override
   String toString() => "YeelightConnectionException: $message";
