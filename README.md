@@ -83,8 +83,10 @@ device.disconnect(); // always disconnect when you are done!
 :warning: When you instantiate `Device`, new TCP connection is created automatically.
 This single TCP connection is then used for every command. So when you are done,
 **you should close the connection**.
+
 :information_source: Note that when call `device.disconnect()` and then call 
 for example `device.turnOff()`, new TCP connection will be created automatically.
+
 :information_source: Also note that YeeLight connections are rate-limited to 60 per minute.
 
 ## Flow
