@@ -20,7 +20,7 @@ Dart library for controlling Yeelight products over LAN.
 Add this to your package's pubspec.yaml file:
 ```yaml
 dependencies:
-  yeedart: ^0.0.0
+  yeedart: ^0.1.0
 ```
 2. **Install it**
 

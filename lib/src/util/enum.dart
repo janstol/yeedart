@@ -11,7 +11,10 @@ abstract class Enum<T> {
 
   @override
   bool operator ==(Object other) {
-    return identical(this, other) || other is Enum<T> && value == other.value;
+    return identical(this, other) ||
+        other is Enum<T> &&
+            runtimeType == other.runtimeType &&
+            value == other.value;
   }
 
   @override

@@ -2,6 +2,7 @@ class Parser {
   /// Uses regex to parse discovery response.
   static Map<String, String> parseDiscoveryResponse(String response) {
     final regExp = RegExp(
+      r"HTTP/1.1 200 OK\r\n"
       r"Cache-Control: max-age=(?<refresh_interval>\d+)\r\n"
       r"Date:(?<date>.*)\r\n"
       r"Ext:(?<ext>.*)\r\n"
@@ -28,8 +29,6 @@ class Parser {
 
     return <String, String>{
       "refresh_interval": match.namedGroup("refresh_interval"),
-      "date": match.namedGroup("date"),
-      "ext": match.namedGroup("ext"),
       "address": match.namedGroup("address"),
       "port": match.namedGroup("port"),
       "id": match.namedGroup("id"),
@@ -44,6 +43,7 @@ class Parser {
       "hue": match.namedGroup("hue"),
       "sat": match.namedGroup("sat"),
       "name": match.namedGroup("name"),
+      "raw": response,
     };
   }
 }

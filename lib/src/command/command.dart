@@ -479,6 +479,7 @@ class Command {
   bool operator ==(Object other) {
     return identical(this, other) ||
         other is Command &&
+            runtimeType == other.runtimeType &&
             id == other.id &&
             method == other.method &&
             parameters.toString() == other.parameters.toString();
@@ -528,4 +529,45 @@ abstract class CommandMethods {
   static const bgAdjustBright = "bg_adjust_bright";
   static const bgAdjustCT = "bg_adjust_ct";
   static const bgAdjustColor = "bg_adjust_color";
+
+  static bool methodExists(String method) => _methods.contains(method);
+
+  static const _methods = [
+    getProp,
+    setCtAbx,
+    setRGB,
+    setHSV,
+    setBright,
+    setPower,
+    toggle,
+    setDefault,
+    startCF,
+    stopCF,
+    setScene,
+    cronAdd,
+    cronGet,
+    cronDel,
+    setAdjust,
+    setMusic,
+    setName,
+    bgSetRGB,
+    bgSetHSV,
+    bgSetCtAbx,
+    bgStartCF,
+    bgStopCF,
+    bgSetScene,
+    bgSetDefault,
+    bgSetPower,
+    bgSetBright,
+    bgSetAdjust,
+    bgToggle,
+    devToggle,
+    adjustBright,
+    adjustCF,
+    adjustCT,
+    adjustColor,
+    bgAdjustBright,
+    bgAdjustCT,
+    bgAdjustColor
+  ];
 }

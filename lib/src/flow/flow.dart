@@ -151,6 +151,7 @@ class Flow {
   bool operator ==(Object other) {
     return identical(this, other) ||
         other is Flow &&
+            runtimeType == other.runtimeType &&
             count == other.count &&
             action == other.action &&
             transitions == other.transitions;

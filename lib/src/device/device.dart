@@ -1,17 +1,19 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:meta/meta.dart';
-import 'package:yeedart/src/command/command_sender.dart';
-import 'package:yeedart/src/command/tcp_command_sender.dart';
-import 'package:yeedart/src/command/command.dart';
 import 'package:yeedart/src/command/adjust_action.dart';
 import 'package:yeedart/src/command/adjust_property.dart';
 import 'package:yeedart/src/command/color.dart';
 import 'package:yeedart/src/command/color_temperature.dart';
+import 'package:yeedart/src/command/command.dart';
+import 'package:yeedart/src/command/command_sender.dart';
 import 'package:yeedart/src/command/effect.dart';
+import 'package:yeedart/src/command/tcp_command_sender.dart';
 import 'package:yeedart/src/device/light_type.dart';
 import 'package:yeedart/src/flow/flow.dart';
 import 'package:yeedart/src/response/command_response.dart';
+import 'package:yeedart/src/response/notification_message.dart';
 import 'package:yeedart/src/scene/scene.dart';
 
 /// Represents Yeelight device (bulb, light, strip,...) and allows to control
@@ -672,7 +674,35 @@ class Device {
     return commandSender.sendCommand(command);
   }
 
+  /// When there is a device state change, the device will send a notification
+  /// message to all connected clients. This is to make sure all clients will
+  /// get the latest device state in time without having to poll the status
+  /// from time to time.
+  ///
+  /// Example:
+  /// ```dart
+  /// device.onNotificationReceived((message) {
+  ///   // do something with message
+  /// })
+  /// ```
+  void onNotificationReceived(void Function(NotificationMessage) onData) {
+    commandSender.connectionStream.listen((event) {
+      try {
+        final parsed = json.decode(utf8.decode(event)) as Map<String, dynamic>;
+        final msg = NotificationMessage.fromJson(parsed);
+
+        if (msg.params != null && msg.method != null) {
+          onData(msg);
+        }
+      } catch (_) {
+        // when parsing fails, do nothing
+      }
+    });
+  }
+
   /// Disconnects from device.
+  ///
+  /// You should close connection when you are finished using it.
   void disconnect() {
     commandSender.close();
   }
@@ -684,6 +714,7 @@ class Device {
   bool operator ==(Object other) {
     return identical(this, other) ||
         other is Device &&
+            runtimeType == other.runtimeType &&
             address == other.address &&
             port == other.port &&
             commandSender == other.commandSender;

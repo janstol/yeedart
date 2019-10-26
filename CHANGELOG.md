@@ -1,4 +1,4 @@
-## [0.0.1] - 2019-10-
+## [0.1.0] - 2019-10-26
 * initial version
-* device discovery
-* color flow and scene support
+* added device discovery & controls
+* added **color flow** and **scene** support

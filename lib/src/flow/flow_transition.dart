@@ -64,18 +64,19 @@ class FlowTransition {
         );
 
   @override
+  int get hashCode =>
+      duration.hashCode ^ mode.hashCode ^ value.hashCode ^ brightness.hashCode;
+
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         other is FlowTransition &&
+            runtimeType == other.runtimeType &&
             duration == other.duration &&
             mode == other.mode &&
             value == other.value &&
             brightness == other.brightness;
   }
-
-  @override
-  int get hashCode =>
-      duration.hashCode ^ mode.hashCode ^ value.hashCode ^ brightness.hashCode;
 
   @override
   String toString() => "FlowTransition(duration: $duration, mode: $mode, "

@@ -39,7 +39,10 @@ class Color {
 
   @override
   bool operator ==(Object other) {
-    return identical(this, other) || other is Color && value == other.value;
+    return identical(this, other) ||
+        other is Color &&
+            runtimeType == other.runtimeType &&
+            value == other.value;
   }
 
   @override

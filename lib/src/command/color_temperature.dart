@@ -28,7 +28,9 @@ class ColorTemperature {
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        other is ColorTemperature && value == other.value;
+        other is ColorTemperature &&
+            runtimeType == other.runtimeType &&
+            value == other.value;
   }
 
   @override

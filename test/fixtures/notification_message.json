@@ -1,0 +1,7 @@
+{
+  "method": "props",
+  "params": {
+    "power": "on",
+    "bright": "10"
+  }
+}

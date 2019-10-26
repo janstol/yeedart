@@ -98,6 +98,7 @@ class Scene {
   bool operator ==(Object other) {
     return identical(this, other) ||
         other is Scene &&
+            runtimeType == other.runtimeType &&
             sceneClass == other.sceneClass &&
             val1 == other.val1 &&
             val2 == other.val2 &&

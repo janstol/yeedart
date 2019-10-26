@@ -13,25 +13,27 @@ class TCPCommandSender implements CommandSender {
   final InternetAddress address;
   final int port;
 
-  @visibleForTesting
-  Socket socket;
+  Socket _socket;
 
   Stream<Uint8List> _socketStream = const Stream.empty();
 
-  bool connected = false;
+  bool _connected = false;
 
   TCPCommandSender({@required this.address, @required this.port});
+
+  @override
+  Stream<Uint8List> get connectionStream => _socketStream.asBroadcastStream();
 
   @override
   Future<CommandResponse> sendCommand(Command command) async {
     CommandResponse response;
 
-    if (!connected) {
+    if (!_connected) {
       await _connect();
     }
     // print(command);
 
-    socket.add(utf8.encode(command.message));
+    _socket.add(utf8.encode(command.message));
 
     await for (final data in _socketStream) {
       final jsonMap = json.decode(utf8.decode(data)) as Map<String, dynamic>;
@@ -46,9 +48,9 @@ class TCPCommandSender implements CommandSender {
   /// Creates TCP connection to [address] and [port].
   Future<void> _connect() async {
     try {
-      socket = await Socket.connect(address, port);
-      _socketStream = socket.asBroadcastStream();
-      connected = true;
+      _socket = await Socket.connect(address, port);
+      _socketStream = _socket.asBroadcastStream();
+      _connected = true;
       //print("Connected to ${address.address}:$port");
     } on SocketException catch (e) {
       String additionalInfo;
@@ -64,21 +66,22 @@ class TCPCommandSender implements CommandSender {
   /// Disconnects TCP connection.
   @override
   void close() {
-    socket.destroy();
-    connected = false;
+    _socket.destroy();
+    _connected = false;
   }
 
   @override
   int get hashCode =>
-      address.hashCode ^ port.hashCode ^ socket.hashCode ^ connected.hashCode;
+      address.hashCode ^ port.hashCode ^ _socket.hashCode ^ _connected.hashCode;
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         other is TCPCommandSender &&
+            runtimeType == other.runtimeType &&
             address == other.address &&
             port == other.port &&
-            socket == other.socket &&
-            connected == other.connected;
+            _socket == other._socket &&
+            _connected == other._connected;
   }
 }

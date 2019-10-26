@@ -8,18 +8,6 @@ class DiscoveryResponse {
   /// Header: `Cache-Control: max-age=<value>`
   final int refreshInterval;
 
-  /// Doesn't contain any important information,
-  /// it's there just to confirm with SSDP.
-  ///
-  /// Header: `Date: `
-  final String date;
-
-  /// Doesn't contain any important information,
-  /// it's there just to confirm with SSDP.
-  ///
-  /// Header: `Ext: `
-  final String ext;
-
   /// IP address of smart LED.
   ///
   /// Header `Location: yeelight://<address>:<port>`
@@ -140,8 +128,6 @@ class DiscoveryResponse {
 
   DiscoveryResponse({
     this.refreshInterval,
-    this.date,
-    this.ext,
     this.address,
     this.port,
     this.id,
@@ -161,8 +147,6 @@ class DiscoveryResponse {
 
   DiscoveryResponse.fromMap(Map<String, String> response)
       : refreshInterval = int.tryParse(response["refresh_interval"]),
-        date = response["date"],
-        ext = response["ext"],
         address = InternetAddress(response["address"]),
         port = int.tryParse(response["port"]),
         id = int.tryParse(response["id"]),
@@ -185,7 +169,9 @@ class DiscoveryResponse {
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        other is DiscoveryResponse && rawResponse == other.rawResponse;
+        other is DiscoveryResponse &&
+            runtimeType == other.runtimeType &&
+            rawResponse == other.rawResponse;
   }
 
   @override
