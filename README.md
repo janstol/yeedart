@@ -1,14 +1,20 @@
 # Yeedart
 
+[![Pub](https://img.shields.io/pub/v/yeedart.svg?style=flat-square)](https://pub.dartlang.org/packages/yeedart)
+[![Build Status](https://travis-ci.com/janstol/yeedart.svg?branch=master)](https://travis-ci.com/janstol/yeedart)
+
 Dart library for controlling Yeelight products over LAN.
 
-:exclamation: **package is still in development...** :exclamation:
+More info about Yeelight API:
+* https://www.yeelight.com/en_US/developer
+* https://www.yeelight.com/download/Yeelight_Inter-Operation_Spec.pdf
 
 ## Contents
 * [Installation](#installation)
 * Usage
   - [Device discovery](#device-discovery)
   - [Connect to the device](#connect-to-the-device)
+  - [Main and background light](#main-and-background-light)
 * [Flow](#flow)
 * [Scene](#scene)
 * [Features and bugs](#features-and-bugs)
@@ -87,13 +93,60 @@ This single TCP connection is then used for every command. So when you are done,
 :information_source: Note that when call `device.disconnect()` and then call 
 for example `device.turnOff()`, new TCP connection will be created automatically.
 
-:information_source: Also note that YeeLight connections are rate-limited to 60 per minute.
+:information_source: Also note that Yeelight connections are rate-limited to 60 per minute.
+
+### Main and background light
+Some devices can be equiped with two lights: main and background. Methods in `Device` class control main light by default
+(for example `device.setRGB(color: Colors.red)` sets RGB color for main light. If you want to set RGB color for background light, you have to specify `lightType` parameter: `device.setRGB(color: Colors.red, lightType: LightType.backgroud);`.
+
+You can also use `LightType.both` but **ONLY** for toggling: `device.toggle(lightType: LightType.both)`.
 
 ## Flow
-todo
+Flow (color flow) is basically a list of transitions. To start a flow use `startFlow()` method and provide `Flow`. `Flow` has 3 required parameters:
+* count - number of transitions to run, 0 for infinite loop. If you have 10 transitions and count is 5, it will run only first 5 transitions!
+* action - specifies action to take after the flow ends.
+  * `FlowAction.stay` to stay at the last state when the flow is stopped.
+  * `FlowAction.recover` to recover the state before the flow.
+  * `FlowAction.turnOff` to turn off.
+* transitions - list of `FlowTransition`, `FlowTransition.rgb()`, `FlowTransition.colorTemperature()` or `FlowTransition.sleep()`.
+
+Following example will loop red, green and blue colors at full brightness.
+```dart
+await device.startFlow(
+  flow: const Flow(
+    count: 0,
+    action: FlowAction.recover(),
+    transitions: [
+      FlowTransition.rgb(color: 0xff0000, brightness: 100),
+      FlowTransition.sleep(duration: Duration(milliseconds: 500)),
+      FlowTransition.rgb(color: 0x00ff00, brightness: 100),
+      FlowTransition.sleep(duration: Duration(milliseconds: 500)),
+      FlowTransition.rgb(color: 0x0000ff, brightness: 100),
+      FlowTransition.sleep(duration: Duration(milliseconds: 500)),
+    ],
+  ),
+);
+```
+To manually stop flow, use `device.stopFlow()`.
+
+This library also includes some predefined flows:
+* `Flow.rgb()` - changes color from red, to green to blue
+* `Flow.police` - changes red and blue color like police lights.
+* `Flow.pulse()` - creates pulse with given color
 
 ## Scene
-todo
+Scene allows you to set light to specific state. To use scene, use `setScene()` method and provide `Scene`.
+
+You can use:
+* `Scene.color()` or `Scene.hsv()` to set color and brightness
+* `Scene.colorTemperature` to set color temperature and brightness
+* `Scene.colorFlow()` to start a color [Flow](#flow)
+* `Scene.autoDelayOff()` to turn on the device to specified brightness and start a timer to turn off the light after specified number of minutes.
+
+Example:
+```dart
+device.setScene(scene: Scene.color(color: 0xff0000, brightness: 100));
+```
 
 ## Features and bugs
 
