@@ -7,7 +7,6 @@ import 'package:yeedart/src/util/parser.dart';
 import 'fixtures/fixtures.dart';
 
 void main() {
-  final discoveryResponseRaw = fixture("discovery_response.txt");
   final discoveryResponse = DiscoveryResponse(
     refreshInterval: 3600,
     address: InternetAddress("192.168.1.239"),
