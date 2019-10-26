@@ -1,6 +1,4 @@
 import 'package:meta/meta.dart';
-import 'package:yeedart/src/command/color.dart';
-import 'package:yeedart/src/command/color_temperature.dart';
 import 'package:yeedart/src/flow/flow_transition.dart';
 import 'package:yeedart/src/util/enum.dart';
 
@@ -44,19 +42,19 @@ class Flow {
           transitions: [
             FlowTransition.rgb(
               duration: duration,
-              color: Colors.red.value,
+              color: 0xff0000,
               brightness: brightness,
             ),
             FlowTransition.sleep(duration: sleepDuration),
             FlowTransition.rgb(
               duration: duration,
-              color: Colors.green.value,
+              color: 0x00ff00,
               brightness: brightness,
             ),
             FlowTransition.sleep(duration: sleepDuration),
             FlowTransition.rgb(
               duration: duration,
-              color: Colors.blue.value,
+              color: 0x0000ff,
               brightness: brightness,
             ),
             FlowTransition.sleep(duration: sleepDuration),
@@ -65,8 +63,8 @@ class Flow {
 
   /// Flow preset - changes color temperature from [start] to [end].
   Flow.temperature({
-    ColorTemperature start = const ColorTemperature(1700),
-    ColorTemperature end = const ColorTemperature(6500),
+    int start = 1700,
+    int end = 6500,
     int count = 1,
     FlowAction action = const FlowAction.turnOff(),
     int brightness = 100,
@@ -76,12 +74,12 @@ class Flow {
           action: action,
           transitions: [
             FlowTransition.colorTemperature(
-              colorTemperature: start.value,
+              colorTemperature: start,
               brightness: brightness,
               duration: duration,
             ),
             FlowTransition.colorTemperature(
-              colorTemperature: end.value,
+              colorTemperature: end,
               brightness: brightness,
               duration: duration,
             ),
@@ -90,7 +88,7 @@ class Flow {
 
   /// Flow preset - creates pulse with given [color].
   Flow.pulse({
-    @required Color color,
+    @required int color,
     int count = 1,
     FlowAction action = const FlowAction.turnOff(),
     int brightness = 100,
@@ -101,12 +99,12 @@ class Flow {
           transitions: [
             FlowTransition.rgb(
               duration: duration,
-              color: color.value,
+              color: color,
               brightness: brightness,
             ),
             FlowTransition.rgb(
               duration: duration,
-              color: color.value,
+              color: color,
               brightness: 1,
             ),
           ],
@@ -124,12 +122,12 @@ class Flow {
           transitions: [
             FlowTransition.rgb(
               duration: duration,
-              color: Colors.red.value,
+              color: 0xff0000,
               brightness: brightness,
             ),
             FlowTransition.rgb(
               duration: duration,
-              color: Colors.blue.value,
+              color: 0x0000ff,
               brightness: brightness,
             ),
           ],

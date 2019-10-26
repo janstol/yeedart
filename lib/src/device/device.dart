@@ -4,8 +4,6 @@ import 'dart:io';
 import 'package:meta/meta.dart';
 import 'package:yeedart/src/command/adjust_action.dart';
 import 'package:yeedart/src/command/adjust_property.dart';
-import 'package:yeedart/src/command/color.dart';
-import 'package:yeedart/src/command/color_temperature.dart';
 import 'package:yeedart/src/command/command.dart';
 import 'package:yeedart/src/command/command_sender.dart';
 import 'package:yeedart/src/command/effect.dart';
@@ -59,7 +57,7 @@ class Device {
   ///
   /// * [lightType] - type of light to control (main or background),
   /// see [LightType].
-  /// * [colorTemperature] - target color temperature (see [ColorTemperature]).
+  /// * [colorTemperature] - target color temperature (1700 - 6500 K).
   /// * [effect]
   ///   * [Effect.sudden] - parameter [duration] is ignored in this case.
   ///   * or [Effect.smooth] - Length of this change is specified by [duration].
@@ -78,20 +76,20 @@ class Device {
   Future<CommandResponse> setColorTemperature({
     int id,
     LightType lightType = LightType.main,
-    @required ColorTemperature colorTemperature,
+    @required int colorTemperature,
     Effect effect = const Effect.smooth(),
     Duration duration = const Duration(milliseconds: 30),
   }) async {
     final cmd = lightType == LightType.main
         ? Command.setColorTemperature(
             id: id,
-            colorTemperature: colorTemperature.value,
+            colorTemperature: colorTemperature,
             effect: effect.value,
             duration: duration.inMilliseconds,
           )
         : Command.bgSetColorTemperature(
             id: id,
-            colorTemperature: colorTemperature.value,
+            colorTemperature: colorTemperature,
             effect: effect.value,
             duration: duration.inMilliseconds,
           );
@@ -103,7 +101,7 @@ class Device {
   ///
   /// * [lightType] - type of light to control (main or background),
   /// see [LightType].
-  /// * [color] - target color (see [Color] and [Colors]).
+  /// * [color] - target color (for example: 0xffffff).
   /// * [effect]
   ///   * [Effect.sudden] - parameter [duration] is ignored in this case.
   ///   * or [Effect.smooth] - Length of this change is specified by [duration].
@@ -122,20 +120,20 @@ class Device {
   Future<CommandResponse> setRGB({
     int id,
     LightType lightType = LightType.main,
-    @required Color color,
+    @required int color,
     Effect effect = const Effect.smooth(),
     Duration duration = const Duration(milliseconds: 30),
   }) async {
     final cmd = lightType == LightType.main
         ? Command.setRGB(
             id: id,
-            rgb: color.value,
+            rgb: color,
             effect: effect.value,
             duration: duration.inMilliseconds,
           )
         : Command.bgSetRGB(
             id: id,
-            rgb: color.value,
+            rgb: color,
             effect: effect.value,
             duration: duration.inMilliseconds,
           );

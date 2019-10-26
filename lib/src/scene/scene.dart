@@ -1,5 +1,4 @@
 import 'package:meta/meta.dart';
-import 'package:yeedart/src/command/color.dart';
 import 'package:yeedart/src/flow/flow.dart';
 import 'package:yeedart/src/scene/scene_class.dart';
 
@@ -46,10 +45,10 @@ class Scene {
   const Scene({this.sceneClass, this.val1 = 0, this.val2 = 0, this.val3});
 
   /// Change the device to specified [color] and [brightness].
-  Scene.color({@required Color color, @required int brightness})
+  const Scene.color({@required int color, @required int brightness})
       : this(
           sceneClass: const SceneClass.color(),
-          val1: color.value,
+          val1: color,
           val2: brightness,
         );
 

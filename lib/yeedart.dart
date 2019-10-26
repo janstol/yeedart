@@ -7,8 +7,6 @@ library yeedart;
 
 export 'src/command/adjust_action.dart';
 export 'src/command/adjust_property.dart';
-export 'src/command/color.dart';
-export 'src/command/color_temperature.dart';
 export 'src/command/command.dart';
 export 'src/command/effect.dart';
 export 'src/device/device.dart';
