@@ -51,13 +51,13 @@ class TCPCommandSender implements CommandSender {
       _socket = await Socket.connect(address, port);
       _socketStream = _socket.asBroadcastStream();
       _connected = true;
-      //print("Connected to ${address.address}:$port");
+      //print('Connected to ${address.address}:$port');
     } on SocketException catch (e) {
       String additionalInfo;
       if (e.osError.errorCode == 1225) {
-        additionalInfo = " Make sure that LAN control is enabled.";
+        additionalInfo = ' Make sure that LAN control is enabled.';
       }
-      throw YeelightConnectionException("${e.osError.message}$additionalInfo");
+      throw YeelightConnectionException('${e.osError.message}$additionalInfo');
     } on Exception catch (e) {
       throw YeelightConnectionException(e.toString());
     }

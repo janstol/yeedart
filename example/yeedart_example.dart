@@ -14,22 +14,22 @@ Future<void> main() async {
 
   // Connect directly to device
   final device = Device(
-    address: InternetAddress("192.168.1.183"),
+    address: InternetAddress('192.168.1.183'),
     port: 55443,
   );
 
   // ignore: avoid_print
   print(await device.getProps(id: 1, parameters: [
-    "name",
-    "model",
-    "fw_ver",
-    "power",
-    "color_mode",
-    "bright",
-    "ct",
-    "rgb",
-    "hue",
-    "sat",
+    'name',
+    'model',
+    'fw_ver',
+    'power',
+    'color_mode',
+    'bright',
+    'ct',
+    'rgb',
+    'hue',
+    'sat',
   ]));
 
   await device.turnOn();

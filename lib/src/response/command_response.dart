@@ -15,9 +15,9 @@ class CommandResponse {
 
   /// Creates [CommandResponse] from parsed JSON.
   CommandResponse.fromJson(Map<String, dynamic> parsed)
-      : id = parsed["id"] as int,
-        result = parsed["result"] as List,
-        error = parsed["error"] as Map<String, dynamic>;
+      : id = parsed['id'] as int,
+        result = parsed['result'] as List,
+        error = parsed['error'] as Map<String, dynamic>;
 
   /// Indicates whether command was successfully executed or not.
   bool get hasError => error != null;
@@ -28,12 +28,12 @@ class CommandResponse {
   String _toJson() {
     return hasError
         ? json.encode(<String, dynamic>{
-            "id": id,
-            "error": error,
+            'id': id,
+            'error': error,
           })
         : json.encode(<String, dynamic>{
-            "id": id,
-            "result": result,
+            'id': id,
+            'result': result,
           });
   }
 

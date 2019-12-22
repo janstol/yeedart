@@ -42,7 +42,7 @@ class Device {
   ///
   /// **Example**:
   /// ```dart
-  /// device.getProps(parameters: ["power", "not_exists", "bright"]);
+  /// device.getProps(parameters: ['power', 'not_exists', 'bright']);
   /// ```
   Future<CommandResponse> getProps({
     int id,
@@ -72,7 +72,7 @@ class Device {
   ///   duration: Duration(milliseconds: 500),
   /// );
   /// ```
-  /// This command is accepted only if the device is in "ON" state.
+  /// This command is accepted only if the device is in 'ON' state.
   Future<CommandResponse> setColorTemperature({
     int id,
     LightType lightType = LightType.main,
@@ -116,7 +116,7 @@ class Device {
   ///   duration: Duration(milliseconds: 500),
   /// );
   /// ```
-  /// This command is accepted only if the device is in "ON" state.
+  /// This command is accepted only if the device is in 'ON' state.
   Future<CommandResponse> setRGB({
     int id,
     LightType lightType = LightType.main,
@@ -161,7 +161,7 @@ class Device {
   ///   duration: Duration(milliseconds: 500),
   /// );
   /// ```
-  /// This command is accepted only if the device is in "ON" state.
+  /// This command is accepted only if the device is in 'ON' state.
   Future<CommandResponse> setHSV({
     int id,
     LightType lightType = LightType.main,
@@ -207,7 +207,7 @@ class Device {
   ///   duration: Duration(milliseconds: 300),
   /// );
   /// ```
-  /// This command is accepted only if the device is in "ON" state.
+  /// This command is accepted only if the device is in 'ON' state.
   Future<CommandResponse> setBrightness({
     int id,
     LightType lightType = LightType.main,
@@ -251,7 +251,7 @@ class Device {
     return commandSender.sendCommand(
       Command.setPower(
         id: id,
-        power: "on",
+        power: 'on',
         effect: effect.value,
         duration: duration.inMilliseconds,
       ),
@@ -278,7 +278,7 @@ class Device {
     return commandSender.sendCommand(
       Command.setPower(
         id: id,
-        power: "off",
+        power: 'off',
         effect: effect.value,
         duration: duration.inMilliseconds,
       ),
@@ -523,7 +523,7 @@ class Device {
   /// ```dart
   /// device.setMusic(
   ///   action: 1,
-  ///   host: "192.168.0.2",
+  ///   host: '192.168.0.2',
   ///   port: 54321,
   /// );
   /// ```
@@ -553,7 +553,7 @@ class Device {
   ///
   /// **Example**:
   /// ```dart
-  /// device.setName(name: "My bulb");
+  /// device.setName(name: 'My bulb');
   /// ```
   Future<CommandResponse> setName({int id, @required String name}) async {
     return commandSender.sendCommand(Command.setName(id: id, name: name));
@@ -719,5 +719,5 @@ class Device {
   }
 
   @override
-  String toString() => "Device(address: $address, port: $port)";
+  String toString() => 'Device(address: $address, port: $port)';
 }

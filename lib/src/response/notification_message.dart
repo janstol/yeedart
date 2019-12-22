@@ -8,7 +8,7 @@ import 'package:collection/collection.dart';
 ///
 /// See [Device.onNotificationReceived].
 class NotificationMessage {
-  /// Currently can be only "props".
+  /// Currently can be only 'props'.
   final String method;
 
   /// Contains params (keys) that has changed with actual value (values).
@@ -18,12 +18,12 @@ class NotificationMessage {
 
   /// Creates [NotificationMessage] from JSON.
   NotificationMessage.fromJson(Map<String, dynamic> parsed)
-      : method = parsed["method"] as String,
-        params = parsed["params"] as Map<String, dynamic>;
+      : method = parsed['method'] as String,
+        params = parsed['params'] as Map<String, dynamic>;
 
   /// Returns raw message (as string).
   String get raw =>
-      json.encode(<String, dynamic>{"method": method, "params": params});
+      json.encode(<String, dynamic>{'method': method, 'params': params});
 
   static const _mapEquality = MapEquality<String, dynamic>();
 
@@ -40,5 +40,5 @@ class NotificationMessage {
   }
 
   @override
-  String toString() => "NotificationMessage($raw)";
+  String toString() => 'NotificationMessage($raw)';
 }

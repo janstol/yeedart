@@ -136,11 +136,11 @@ class Flow {
   /// Returns expression that can be sent to the device.
   String get expression => transitions
       .map((t) {
-        return "${t.duration.inMilliseconds},${t.mode.value},${t.value},"
-            "${t.brightness}";
+        return '${t.duration.inMilliseconds},${t.mode.value},${t.value},'
+            '${t.brightness}';
       })
       .toList()
-      .join(",");
+      .join(',');
 
   @override
   int get hashCode => count.hashCode ^ action.hashCode ^ transitions.hashCode;
@@ -156,8 +156,8 @@ class Flow {
   }
 
   @override
-  String toString() => "Flow(count: $count, action: $action, "
-      "transitions: $transitions)";
+  String toString() => 'Flow(count: $count, action: $action, '
+      'transitions: $transitions)';
 }
 
 /// Action used in [Flow].

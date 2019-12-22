@@ -61,7 +61,7 @@ class Scene {
           sceneClass: const SceneClass.hsv(),
           val1: hue,
           val2: saturation,
-          val3: "$brightness",
+          val3: '$brightness',
         );
 
   /// Change the device to specified [colorTemperature] and [brightness].
@@ -105,6 +105,6 @@ class Scene {
   }
 
   @override
-  String toString() => "Scene(sceneClass: ${sceneClass.value}, val1: $val1,"
-      "val2: $val2, val3: $val3)";
+  String toString() => 'Scene(sceneClass: ${sceneClass.value}, val1: $val1,'
+      'val2: $val2, val3: $val3)';
 }

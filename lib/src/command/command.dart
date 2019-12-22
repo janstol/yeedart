@@ -12,7 +12,7 @@ import 'package:yeedart/src/scene/scene_class.dart';
 /// See [CommandMethods].
 /// * [parameters] - list of parameters, method specific.
 ///
-/// NOTE: "bg" methods are used to control background light. These commands are
+/// NOTE: 'bg' methods are used to control background light. These commands are
 /// only supported on lights that are equipped with a background light.
 class Command {
   int id;
@@ -32,11 +32,11 @@ class Command {
   /// Command to set color temperature of the device (main light).
   ///
   /// * [colorTemperature] - the target color temperature.
-  /// * [effect] - supports two values - "sudden" and "smooth".
+  /// * [effect] - supports two values - 'sudden' and 'smooth'.
   /// * [duration] - total time of the gradual changing in milliseconds. Minimal
   /// supported duration is 30 milliseconds.
   ///
-  /// This command is accepted only if the device is in "ON" state.
+  /// This command is accepted only if the device is in 'ON' state.
   Command.setColorTemperature({
     this.id,
     @required int colorTemperature,
@@ -52,7 +52,7 @@ class Command {
   /// * [effect] - same as in [Command.setColorTemperature].
   /// * [duration] - same as in [Command.setColorTemperature].
   ///
-  /// This command is accepted only if the device is in "ON" state.
+  /// This command is accepted only if the device is in 'ON' state.
   Command.setRGB({
     this.id,
     @required int rgb,
@@ -69,7 +69,7 @@ class Command {
   /// * [effect] - same as in [Command.setColorTemperature].
   /// * [duration] - same as in [Command.setColorTemperature].
   ///
-  /// This command is accepted only if the device is in "ON" state.
+  /// This command is accepted only if the device is in 'ON' state.
   Command.setHSV({
     this.id,
     @required int hue,
@@ -86,7 +86,7 @@ class Command {
   /// * [effect] - same as in [Command.setColorTemperature].
   /// * [duration] - same as in [Command.setColorTemperature].
   ///
-  /// This command is accepted only if the device is in "ON" state.
+  /// This command is accepted only if the device is in 'ON' state.
   Command.setBrightness({
     this.id,
     @required int brightness,
@@ -97,7 +97,7 @@ class Command {
 
   /// Command to switch on or off the device (main light).
   ///
-  /// * [power] - only "on" or "off" values.
+  /// * [power] - only 'on' or 'off' values.
   /// * [effect] - same as in [Command.setColorTemperature].
   /// * [duration] - same as in [Command.setColorTemperature].
   /// * [mode] (optional)
@@ -127,7 +127,7 @@ class Command {
 
   /// Command to save current state of main light to persistent memory.
   ///
-  /// This command is accepted only if the device is in "ON" state.
+  /// This command is accepted only if the device is in 'ON' state.
   Command.setDefault({this.id})
       : method = CommandMethods.setDefault,
         parameters = const <void>[];
@@ -149,7 +149,7 @@ class Command {
   ///   * brightness - brightness value, -1 or 1 ~ 100. Ignored when mode is 7.
   ///   When this value is -1, brightness in this tuple is ignored.
   ///
-  /// This command is accepted only if the device is in "ON" state.
+  /// This command is accepted only if the device is in 'ON' state.
   Command.startColorFlow({
     this.id,
     @required int count,
@@ -168,11 +168,11 @@ class Command {
   /// (main light).
   ///
   /// * [cls] (class)
-  ///   * `"color"` - change the device to specified color and brightness
-  ///   * `"hsv"` - change the device to specified color and brightness.
-  ///   * `"ct"` - change the device to specified ct and brightness.
-  ///   * `"cf"` - start a color flow in specified style.
-  ///   * `"auto_delay_off"` - turn on the device to specified brightness and
+  ///   * `'color'` - change the device to specified color and brightness
+  ///   * `'hsv'` - change the device to specified color and brightness.
+  ///   * `'ct'` - change the device to specified ct and brightness.
+  ///   * `'cf'` - start a color flow in specified style.
+  ///   * `'auto_delay_off'` - turn on the device to specified brightness and
   ///   start a timer to turn off the light after specified number of minutes.
   /// * [val1], [val2], [val3] - class specific values.
   ///
@@ -199,7 +199,7 @@ class Command {
   /// * [type] - currently can by only 0 (means power off)
   /// * [value] is the length of the timer in minutes.
   ///
-  /// This command is accepted only if the device is in "ON" state.
+  /// This command is accepted only if the device is in 'ON' state.
   Command.cronAdd({this.id, int type = 0, @required int value})
       : method = CommandMethods.cronAdd,
         parameters = <int>[type, value];
@@ -225,17 +225,17 @@ class Command {
   /// current value (main light).
   ///
   /// * [action]
-  ///   * `"increase"` - increase the specified property
-  ///   * `"decrease"` - decrease the specified property
-  ///   * `"circle"` - increase the specified property, after it reaches the max
+  ///   * `'increase'` - increase the specified property
+  ///   * `'decrease'` - decrease the specified property
+  ///   * `'circle'` - increase the specified property, after it reaches the max
   ///   value go back to minimum value.
   ///
   /// * [property]
-  ///   * `"bright"` - adjust brightness
-  ///   * `"ct"` - adjust color temperature
-  ///   * `"color"` - adjust color
+  ///   * `'bright'` - adjust brightness
+  ///   * `'ct'` - adjust color temperature
+  ///   * `'color'` - adjust color
   ///
-  /// When [property] is `"color"`, the [action] can be only `"circle"`.
+  /// When [property] is `'color'`, the [action] can be only `'circle'`.
   Command.setAdjust({
     this.id,
     @required String action,
@@ -333,7 +333,7 @@ class Command {
 
   /// Command to save current state of background light to persistent memory.
   ///
-  /// This command is accepted only if the device is in "ON" state.
+  /// This command is accepted only if the device is in 'ON' state.
   Command.bgSetDefault({this.id})
       : method = CommandMethods.bgSetDefault,
         parameters = const <void>[];
@@ -465,11 +465,11 @@ class Command {
   /// Command message. Used when sending command.
   String get message {
     final msg = json.encode(<String, dynamic>{
-      "id": id ??= hashCode,
-      "method": method,
-      "params": parameters,
+      'id': id ??= hashCode,
+      'method': method,
+      'params': parameters,
     });
-    return "$msg\r\n";
+    return '$msg\r\n';
   }
 
   @override
@@ -486,49 +486,49 @@ class Command {
   }
 
   @override
-  String toString() => "Command: $message";
+  String toString() => 'Command: $message';
 }
 
 /// All methods that can be used to control Yeelight devices.
 ///
 /// Note that some devices does not support all methods.
 abstract class CommandMethods {
-  static const getProp = "get_prop";
-  static const setCtAbx = "set_ct_abx";
-  static const setRGB = "set_rgb";
-  static const setHSV = "set_hsv";
-  static const setBright = "set_bright";
-  static const setPower = "set_power";
-  static const toggle = "toggle";
-  static const setDefault = "set_default";
-  static const startCF = "start_cf";
-  static const stopCF = "stop_cf";
-  static const setScene = "set_scene";
-  static const cronAdd = "cron_add";
-  static const cronGet = "cron_get";
-  static const cronDel = "cron_del";
-  static const setAdjust = "set_adjust";
-  static const setMusic = "set_music";
-  static const setName = "set_name";
-  static const bgSetRGB = "bg_set_rgb";
-  static const bgSetHSV = "bg_set_hsv";
-  static const bgSetCtAbx = "bg_set_ct_abx";
-  static const bgStartCF = "bg_start_cf";
-  static const bgStopCF = "bg_stop_cf";
-  static const bgSetScene = "bg_set_scene";
-  static const bgSetDefault = "bg_set_default";
-  static const bgSetPower = "bg_set_power";
-  static const bgSetBright = "bg_set_bright";
-  static const bgSetAdjust = "bg_set_adjust";
-  static const bgToggle = "bg_toggle";
-  static const devToggle = "dev_toggle";
-  static const adjustBright = "adjust_bright";
-  static const adjustCF = "adjust_cf";
-  static const adjustCT = "adjust_ct";
-  static const adjustColor = "adjust_color";
-  static const bgAdjustBright = "bg_adjust_bright";
-  static const bgAdjustCT = "bg_adjust_ct";
-  static const bgAdjustColor = "bg_adjust_color";
+  static const getProp = 'get_prop';
+  static const setCtAbx = 'set_ct_abx';
+  static const setRGB = 'set_rgb';
+  static const setHSV = 'set_hsv';
+  static const setBright = 'set_bright';
+  static const setPower = 'set_power';
+  static const toggle = 'toggle';
+  static const setDefault = 'set_default';
+  static const startCF = 'start_cf';
+  static const stopCF = 'stop_cf';
+  static const setScene = 'set_scene';
+  static const cronAdd = 'cron_add';
+  static const cronGet = 'cron_get';
+  static const cronDel = 'cron_del';
+  static const setAdjust = 'set_adjust';
+  static const setMusic = 'set_music';
+  static const setName = 'set_name';
+  static const bgSetRGB = 'bg_set_rgb';
+  static const bgSetHSV = 'bg_set_hsv';
+  static const bgSetCtAbx = 'bg_set_ct_abx';
+  static const bgStartCF = 'bg_start_cf';
+  static const bgStopCF = 'bg_stop_cf';
+  static const bgSetScene = 'bg_set_scene';
+  static const bgSetDefault = 'bg_set_default';
+  static const bgSetPower = 'bg_set_power';
+  static const bgSetBright = 'bg_set_bright';
+  static const bgSetAdjust = 'bg_set_adjust';
+  static const bgToggle = 'bg_toggle';
+  static const devToggle = 'dev_toggle';
+  static const adjustBright = 'adjust_bright';
+  static const adjustCF = 'adjust_cf';
+  static const adjustCT = 'adjust_ct';
+  static const adjustColor = 'adjust_color';
+  static const bgAdjustBright = 'bg_adjust_bright';
+  static const bgAdjustCT = 'bg_adjust_ct';
+  static const bgAdjustColor = 'bg_adjust_color';
 
   static bool methodExists(String method) => _methods.contains(method);
 

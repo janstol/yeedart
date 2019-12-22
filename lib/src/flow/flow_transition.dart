@@ -79,8 +79,8 @@ class FlowTransition {
   }
 
   @override
-  String toString() => "FlowTransition(duration: $duration, mode: $mode, "
-      "value: $value, brightness: $brightness)";
+  String toString() => 'FlowTransition(duration: $duration, mode: $mode, '
+      'value: $value, brightness: $brightness)';
 }
 
 /// Mode for [FlowTransition].
@@ -94,5 +94,5 @@ class FlowTransitionMode extends Enum<int> {
   const FlowTransitionMode.sleep() : this._(7);
 
   @override
-  String toString() => "FlowTransitionMode($value)";
+  String toString() => 'FlowTransitionMode($value)';
 }

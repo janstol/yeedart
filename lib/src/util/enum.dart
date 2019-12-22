@@ -18,5 +18,5 @@ abstract class Enum<T> {
   }
 
   @override
-  String toString() => "Enum($value)";
+  String toString() => 'Enum($value)';
 }

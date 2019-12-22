@@ -23,12 +23,12 @@ void main() {
   test('Should return props.', () async {
     final response = CommandResponse(
       id: 3,
-      result: <dynamic>["on", "", 100],
+      result: <dynamic>['on', '', 100],
       error: null,
     );
 
     expect(
-      await testDevice.getProps(id: 3, parameters: ["power", "asdf", "bright"]),
+      await testDevice.getProps(id: 3, parameters: ['power', 'asdf', 'bright']),
       response,
     );
   });
@@ -36,7 +36,7 @@ void main() {
   test('Should return success command response.', () async {
     final response = CommandResponse(
       id: 2,
-      result: <dynamic>["ok"],
+      result: <dynamic>['ok'],
       error: null,
     );
 
@@ -50,11 +50,11 @@ void main() {
     final response = CommandResponse(
       id: 999,
       result: null,
-      error: <String, dynamic>{"code": -1, "message": "unsupported method"},
+      error: <String, dynamic>{'code': -1, 'message': 'unsupported method'},
     );
 
     expect(
-      await testDevice.sendCommand(Command(999, "not_exists", <void>[])),
+      await testDevice.sendCommand(Command(999, 'not_exists', <void>[])),
       response,
     );
   });

@@ -146,22 +146,22 @@ class DiscoveryResponse {
   });
 
   DiscoveryResponse.fromMap(Map<String, String> response)
-      : refreshInterval = int.tryParse(response["refresh_interval"]),
-        address = InternetAddress(response["address"]),
-        port = int.tryParse(response["port"]),
-        id = int.tryParse(response["id"]),
-        model = response["model"],
-        firmwareVersion = int.tryParse(response["port"]),
-        supportedControls = response["support"].split(r"\s"),
-        powered = response["power"] == "on",
-        brightness = int.tryParse(response["bright"]),
-        colorMode = int.tryParse(response["color_mode"]),
-        colorTemperature = int.tryParse(response["ct"]),
-        rgb = int.tryParse(response["rgb"]),
-        hue = int.tryParse(response["hue"]),
-        sat = int.tryParse(response["sat"]),
-        name = response["name"],
-        rawResponse = response["raw"];
+      : refreshInterval = int.tryParse(response['refresh_interval']),
+        address = InternetAddress(response['address']),
+        port = int.tryParse(response['port']),
+        id = int.tryParse(response['id']),
+        model = response['model'],
+        firmwareVersion = int.tryParse(response['port']),
+        supportedControls = response['support'].split(r'\s'),
+        powered = response['power'] == 'on',
+        brightness = int.tryParse(response['bright']),
+        colorMode = int.tryParse(response['color_mode']),
+        colorTemperature = int.tryParse(response['ct']),
+        rgb = int.tryParse(response['rgb']),
+        hue = int.tryParse(response['hue']),
+        sat = int.tryParse(response['sat']),
+        name = response['name'],
+        rawResponse = response['raw'];
 
   @override
   int get hashCode => rawResponse.hashCode;
@@ -175,11 +175,11 @@ class DiscoveryResponse {
   }
 
   @override
-  String toString() => "DiscoveryResponse(refreshInterval: $refreshInterval, "
-      "ipAddress: $address, port: $port, id: $id, model: $model, "
-      "firmwareVersion: $firmwareVersion, "
-      "supportedControls: <$supportedControls>, powered: $powered, "
-      "brightness: $brightness, colorMode: $colorMode, "
-      "colorTemperature: $colorTemperature, rgb: $rgb, hue: $hue, sat: $sat, "
-      "name: $name)";
+  String toString() => 'DiscoveryResponse(refreshInterval: $refreshInterval, '
+      'ipAddress: $address, port: $port, id: $id, model: $model, '
+      'firmwareVersion: $firmwareVersion, '
+      'supportedControls: <$supportedControls>, powered: $powered, '
+      'brightness: $brightness, colorMode: $colorMode, '
+      'colorTemperature: $colorTemperature, rgb: $rgb, hue: $hue, sat: $sat, '
+      'name: $name)';
 }

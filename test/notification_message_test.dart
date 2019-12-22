@@ -7,12 +7,12 @@ import 'fixtures/fixtures.dart';
 
 void main() {
   test('Should return notification message.', () {
-    final messageRaw = fixture("notification_message.json");
+    final messageRaw = fixture('notification_message.json');
     const message = NotificationMessage(
-      method: "props",
+      method: 'props',
       params: <String, dynamic>{
-        "power": "on",
-        "bright": "10",
+        'power': 'on',
+        'bright': '10',
       },
     );
 
