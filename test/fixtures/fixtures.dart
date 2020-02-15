@@ -8,7 +8,7 @@ String fixture(String name) =>
 String discoveryMessage(InternetAddress address, int port) {
   return 'M-SEARCH * HTTP/1.1\r\n'
       'HOST: ${address.address}:$port\r\n'
-      'MAN: \'ssdp:discover\'\r\n'
+      'MAN: "ssdp:discover"\r\n'
       'ST: wifi_bulb\r\n';
 }
 
