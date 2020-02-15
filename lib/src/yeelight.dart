@@ -17,13 +17,13 @@ class Yeelight {
   /// ```
   /// M-SEARCH * HTTP/1.1
   /// HOST: 239.255.255.250:1982
-  /// MAN: 'ssdp:discover'
+  /// MAN: "ssdp:discover"
   /// ST: wifi_bulb
   /// ```
   /// * First line must be `M-SEARCH * HTTP/1.1`.
   /// * 'HOST' header is optional. If present, the value should be
   /// `239.255.255.250:1982`.
-  /// * 'MAN' header is *required* and value must be `'ssdp:discover'`
+  /// * 'MAN' header is *required* and value must be `"ssdp:discover"`
   /// (with double quotes).
   /// * 'ST' header is required and value must be `wifi_bulb`.
   /// * Headers are case-insensitive, start line and all the header values are
@@ -40,7 +40,7 @@ class Yeelight {
     final internetAddress = InternetAddress(address);
     final message = 'M-SEARCH * HTTP/1.1\r\n'
         'HOST: ${internetAddress.address}:$port\r\n'
-        'MAN: \'ssdp:discover\'\r\n'
+        'MAN: "ssdp:discover"\r\n'
         'ST: wifi_bulb\r\n';
 
     final responses = <DiscoveryResponse>[];
