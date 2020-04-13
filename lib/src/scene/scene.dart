@@ -105,6 +105,6 @@ class Scene {
   }
 
   @override
-  String toString() => 'Scene(sceneClass: ${sceneClass.value}, val1: $val1,'
+  String toString() => 'Scene(sceneClass: ${sceneClass.value}, val1: $val1, '
       'val2: $val2, val3: $val3)';
 }

@@ -1,6 +1,8 @@
 import 'package:meta/meta.dart';
+import 'package:yeedart/src/flow/flow_action.dart';
 import 'package:yeedart/src/flow/flow_transition.dart';
 import 'package:yeedart/src/util/enum.dart';
+import 'package:collection/collection.dart';
 
 /// Flow used when starting color flow.
 ///
@@ -142,6 +144,8 @@ class Flow {
       .toList()
       .join(',');
 
+  static const _listEquality = ListEquality<FlowTransition>();
+
   @override
   int get hashCode => count.hashCode ^ action.hashCode ^ transitions.hashCode;
 
@@ -152,23 +156,10 @@ class Flow {
             runtimeType == other.runtimeType &&
             count == other.count &&
             action == other.action &&
-            transitions == other.transitions;
+            _listEquality.equals(transitions, other.transitions);
   }
 
   @override
   String toString() => 'Flow(count: $count, action: $action, '
       'transitions: $transitions)';
-}
-
-/// Action used in [Flow].
-///
-/// See [Flow.action].
-class FlowAction extends Enum<int> {
-  const FlowAction.recover() : this._(0);
-
-  const FlowAction.stay() : this._(1);
-
-  const FlowAction.turnOff() : this._(2);
-
-  const FlowAction._(int value) : super(value);
 }

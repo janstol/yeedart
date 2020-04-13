@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:meta/meta.dart';
+
 /// Response send by devices after discovery message.
 class DiscoveryResponse {
   /// Status refresh interval. Smart LED will send another advertisement message
@@ -128,8 +130,8 @@ class DiscoveryResponse {
 
   DiscoveryResponse({
     this.refreshInterval,
-    this.address,
-    this.port,
+    @required this.address,
+    @required this.port,
     this.id,
     this.model,
     this.firmwareVersion,
@@ -145,23 +147,52 @@ class DiscoveryResponse {
     this.rawResponse,
   });
 
-  DiscoveryResponse.fromMap(Map<String, String> response)
-      : refreshInterval = int.tryParse(response['refresh_interval']),
-        address = InternetAddress(response['address']),
-        port = int.tryParse(response['port']),
-        id = int.tryParse(response['id']),
-        model = response['model'],
-        firmwareVersion = int.tryParse(response['port']),
-        supportedControls = response['support'].split(r'\s'),
-        powered = response['power'] == 'on',
-        brightness = int.tryParse(response['bright']),
-        colorMode = int.tryParse(response['color_mode']),
-        colorTemperature = int.tryParse(response['ct']),
-        rgb = int.tryParse(response['rgb']),
-        hue = int.tryParse(response['hue']),
-        sat = int.tryParse(response['sat']),
-        name = response['name'],
-        rawResponse = response['raw'];
+  factory DiscoveryResponse.fromRawResponse(String rawResponse) {
+    final regExp = RegExp(
+      r'HTTP/1.1 200 OK\r\n'
+      r'Cache-Control: max-age=(?<refresh_interval>\d+)\r\n'
+      r'Date:(?<date>.*)\r\n'
+      r'Ext:(?<ext>.*)\r\n'
+      r'Location: yeelight://(?<address>(?=.*[^\.]$)((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.?){4})\:(?<port>\d+)\r\n'
+      r'Server: (?<server>.*)\r\n'
+      r'id: (?<id>.*)\r\n'
+      r'model: (?<model>.*)\r\n'
+      r'fw_ver: (?<fw_ver>.*)\r\n'
+      r'support: (?<support>.*)\r\n'
+      r'power: (?<power>.*)\r\n'
+      r'bright: (?<bright>.*)\r\n'
+      r'color_mode: (?<color_mode>.*)\r\n'
+      r'ct: (?<ct>\d+)\r\n'
+      r'rgb: (?<rgb>\d+)\r\n'
+      r'hue: (?<hue>\d+)\r\n'
+      r'sat: (?<sat>[0-9]|[1-8][0-9]|9[0-9]|100)\r\n'
+      r'name: (?<name>.*)\r\n',
+      dotAll: true,
+      caseSensitive: false,
+      multiLine: true,
+    );
+
+    final match = regExp.firstMatch(rawResponse);
+
+    return DiscoveryResponse(
+      refreshInterval: int.tryParse(match.namedGroup('refresh_interval')),
+      address: InternetAddress(match.namedGroup('address')),
+      port: int.tryParse(match.namedGroup('port')),
+      id: int.tryParse(match.namedGroup('id')),
+      model: match.namedGroup('model'),
+      firmwareVersion: int.tryParse(match.namedGroup('port')),
+      supportedControls: match.namedGroup('support')?.split(r'\s'),
+      powered: match.namedGroup('power') == 'on',
+      brightness: int.tryParse(match.namedGroup('bright')),
+      colorMode: int.tryParse(match.namedGroup('color_mode')),
+      colorTemperature: int.tryParse(match.namedGroup('ct')),
+      rgb: int.tryParse(match.namedGroup('rgb')),
+      hue: int.tryParse(match.namedGroup('hue')),
+      sat: int.tryParse(match.namedGroup('sat')),
+      name: match.namedGroup('name'),
+      rawResponse: rawResponse,
+    );
+  }
 
   @override
   int get hashCode => rawResponse.hashCode;

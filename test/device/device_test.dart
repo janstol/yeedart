@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:test/test.dart';
 import 'package:yeedart/yeedart.dart';
 
-import 'fake_command_sender.dart';
+import '../mocks/fake_command_sender.dart';
 
 void main() {
   Device testDevice;

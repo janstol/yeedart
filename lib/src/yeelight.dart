@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:yeedart/src/response/discovery_response.dart';
-import 'package:yeedart/src/util/parser.dart';
 
 class Yeelight {
   static const _address = '239.255.255.250';
@@ -38,10 +37,7 @@ class Yeelight {
     RawDatagramSocket socket,
   }) async {
     final internetAddress = InternetAddress(address);
-    final message = 'M-SEARCH * HTTP/1.1\r\n'
-        'HOST: ${internetAddress.address}:$port\r\n'
-        'MAN: "ssdp:discover"\r\n'
-        'ST: wifi_bulb\r\n';
+    final message = createDiscoveryMessage(internetAddress, port);
 
     final responses = <DiscoveryResponse>[];
 
@@ -60,8 +56,8 @@ class Yeelight {
         final datagram = udpSocket.receive();
         if (datagram != null && datagram.data.isNotEmpty) {
           //print(utf8.decode(datagram.data));
-          final map = Parser.parseDiscoveryResponse(utf8.decode(datagram.data));
-          final response = DiscoveryResponse.fromMap(map);
+          final response =
+              DiscoveryResponse.fromRawResponse(utf8.decode(datagram.data));
 
           if (!responses.contains(response)) {
             responses.add(response);
@@ -71,5 +67,15 @@ class Yeelight {
     }
 
     return responses;
+  }
+
+  static String createDiscoveryMessage(
+    InternetAddress internetAddress,
+    int port,
+  ) {
+    return 'M-SEARCH * HTTP/1.1\r\n'
+        'HOST: ${internetAddress.address}:$port\r\n'
+        'MAN: "ssdp:discover"\r\n'
+        'ST: wifi_bulb\r\n';
   }
 }

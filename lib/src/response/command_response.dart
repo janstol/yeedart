@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:meta/meta.dart';
+
 /// Response to [Command].
 class CommandResponse {
   /// Same as sent id of the sent command.
@@ -11,7 +13,11 @@ class CommandResponse {
   /// If command fails, error will be returned.
   final Map<String, dynamic> error;
 
-  CommandResponse({this.id, this.result, this.error});
+  CommandResponse({
+    @required this.id,
+    this.result,
+    this.error,
+  });
 
   /// Creates [CommandResponse] from parsed JSON.
   CommandResponse.fromJson(Map<String, dynamic> parsed)
@@ -50,5 +56,5 @@ class CommandResponse {
   }
 
   @override
-  String toString() => 'CommandResponse: ${_toJson()}';
+  String toString() => 'CommandResponse: $raw';
 }

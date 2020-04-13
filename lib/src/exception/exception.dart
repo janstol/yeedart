@@ -11,5 +11,14 @@ class YeelightConnectionException implements YeelightException {
   const YeelightConnectionException(this.message);
 
   @override
+  int get hashCode => message.hashCode;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        other is YeelightConnectionException && message == other.message;
+  }
+
+  @override
   String toString() => 'YeelightConnectionException: $message';
 }

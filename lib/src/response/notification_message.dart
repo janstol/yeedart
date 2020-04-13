@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:collection/collection.dart';
+import 'package:meta/meta.dart';
 
 /// [Device] sends a [NotificationMessage] to all connected clients
 /// when there is a state change, to make sure all clients will get the latest
@@ -14,7 +15,7 @@ class NotificationMessage {
   /// Contains params (keys) that has changed with actual value (values).
   final Map<String, dynamic> params;
 
-  const NotificationMessage({this.method, this.params});
+  const NotificationMessage({@required this.method, @required this.params});
 
   /// Creates [NotificationMessage] from JSON.
   NotificationMessage.fromJson(Map<String, dynamic> parsed)
