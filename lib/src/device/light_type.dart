@@ -8,7 +8,7 @@ enum LightType {
   /// NOTE: Some devices don't have a background light.
   backgroud,
 
-  /// Main and background light (
+  /// Main and background light
   /// NOTE: used only for toggling.
   both,
 }

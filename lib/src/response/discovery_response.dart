@@ -195,7 +195,7 @@ class DiscoveryResponse {
   }
 
   @override
-  int get hashCode => rawResponse.hashCode;
+  int get hashCode => rawResponse.hashCode ^ runtimeType.hashCode;
 
   @override
   bool operator ==(Object other) {

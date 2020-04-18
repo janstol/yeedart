@@ -65,7 +65,11 @@ class FlowTransition {
 
   @override
   int get hashCode =>
-      duration.hashCode ^ mode.hashCode ^ value.hashCode ^ brightness.hashCode;
+      duration.hashCode ^
+      mode.hashCode ^
+      value.hashCode ^
+      brightness.hashCode ^
+      runtimeType.hashCode;
 
   @override
   bool operator ==(Object other) {

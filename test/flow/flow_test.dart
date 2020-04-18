@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:test/test.dart';
 import 'package:yeedart/src/flow/flow.dart';
 import 'package:yeedart/src/flow/flow_action.dart';
@@ -176,33 +177,48 @@ void main() {
     expect(flow.expression, expression);
   });
 
-  test('toString() returns correct value', () {
-    const count = 2;
-    const brightness = 70;
-    const mode = FlowTransitionMode.color();
-    const duration = Duration(milliseconds: 250);
+  test('hashCode returns correct value', () {
+    final flow = _createTestFlow();
+    const _listEquality = ListEquality<FlowTransition>();
 
-    final flow = Flow(
-      count: count,
-      action: FlowAction.turnOff(),
-      transitions: [
-        FlowTransition.rgb(
-          duration: duration,
-          color: 255,
-          brightness: brightness,
-        ),
-        FlowTransition.rgb(
-          duration: duration,
-          color: 16711680,
-          brightness: brightness,
-        ),
-      ],
+    expect(
+      flow.hashCode,
+      flow.count.hashCode ^
+          flow.action.hashCode ^
+          flow.runtimeType.hashCode ^
+          _listEquality.hash(flow.transitions),
     );
+  });
 
+  test('toString() returns correct value', () {
+    final flow = _createTestFlow();
     expect(
       flow.toString(),
       'Flow(count: ${flow.count}, action: ${flow.action}, '
       'transitions: ${flow.transitions})',
     );
   });
+}
+
+Flow _createTestFlow() {
+  const count = 2;
+  const brightness = 70;
+  const duration = Duration(milliseconds: 250);
+
+  return Flow(
+    count: count,
+    action: FlowAction.turnOff(),
+    transitions: [
+      FlowTransition.rgb(
+        duration: duration,
+        color: 255,
+        brightness: brightness,
+      ),
+      FlowTransition.rgb(
+        duration: duration,
+        color: 16711680,
+        brightness: brightness,
+      ),
+    ],
+  );
 }

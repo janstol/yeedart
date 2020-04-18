@@ -44,7 +44,7 @@ class CommandResponse {
   }
 
   @override
-  int get hashCode => id.hashCode ^ result.hashCode;
+  int get hashCode => id.hashCode ^ result.hashCode ^ runtimeType.hashCode;
 
   @override
   bool operator ==(Object other) {

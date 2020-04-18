@@ -1,6 +1,8 @@
-## [0.2.0] - 2020-04-13
+## [0.2.0] - 2020-04-18
 * **BC**: removed `Parser`, use `DiscoveryResponse.fromRawResponse` factory constructor instead
-* added more tests
+* **BC**: removed `Device.onNotificationReceived`, use `Device.notificationMessageStream` stream instead
+* **BC**: added `CommandSender.isConnected`, every CommandSender have to implement this getter
+* added `Device.isConnected` - returns connection state of command sender (`CommandSender.isConnected`)
 
 ## [0.1.2] - 2020-02-15
 * bug fix: ssdp:discover quotes [#1](https://github.com/janstol/yeedart/issues/1) ([@fmichenaud](https://github.com/fmichenaud))

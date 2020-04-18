@@ -8,6 +8,7 @@ import 'package:yeedart/src/response/command_response.dart';
 /// To create custom command sender, implement this class.
 /// Default implementation is [TCPCommandSender].
 abstract class CommandSender {
+  bool get isConnected;
   Stream<Uint8List> get connectionStream;
 
   /// Sends command to the device.

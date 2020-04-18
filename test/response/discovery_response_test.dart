@@ -45,6 +45,16 @@ void main() {
     );
   });
 
+  test('hashCode returns correct value', () {
+    final response =
+        DiscoveryResponse.fromRawResponse(Fixtures.discoveryResponseRaw);
+
+    expect(
+      response.hashCode,
+      response.rawResponse.hashCode ^ response.runtimeType.hashCode,
+    );
+  });
+
   test('toString returns correct value', () {
     final response =
         DiscoveryResponse.fromRawResponse(Fixtures.discoveryResponseRaw);

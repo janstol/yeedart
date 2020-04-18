@@ -25,10 +25,27 @@ void main() {
       },
     };
 
+    final command = CommandResponse(id: 999, error: error);
+
     expect(
       CommandResponse.fromJson(json),
-      CommandResponse(id: 999, error: error),
+      command,
     );
+    expect(command.toString(), 'CommandResponse: ${command.raw}');
+  });
+
+  test('hashCode returns correct value', () {
+    final response = CommandResponse(
+      id: 1,
+      result: <String>['on', '', '100'],
+      error: null,
+    );
+
+    expect(
+        response.hashCode,
+        response.id.hashCode ^
+            response.result.hashCode ^
+            response.runtimeType.hashCode);
   });
 
   test('toString returns correct value', () {

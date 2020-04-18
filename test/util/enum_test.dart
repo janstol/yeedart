@@ -6,6 +6,15 @@ void main() {
   test('enum values equals', () {
     expect(TestEnum.valueOne(), TestEnum.valueOne());
     expect(TestEnum.valueOne(), isNot(TestEnum.valueTwo()));
+    expect(TestEnum.valueOne() == TestEnum.valueOne(), true);
+  });
+
+  test('hashCode returns correct value', () {
+    final testEnum = TestEnum.valueOne();
+    expect(
+      testEnum.hashCode,
+      testEnum.value.hashCode ^ testEnum.runtimeType.hashCode,
+    );
   });
 
   test('toString returns correct value', () {

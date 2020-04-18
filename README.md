@@ -86,11 +86,11 @@ await device.setBrightness(brightness: 70); // set brightness to 70 %
 device.disconnect(); // always disconnect when you are done!
 ```
 
-:warning: When you instantiate `Device`, new TCP connection is created automatically.
-This single TCP connection is then used for every command. So when you are done,
+:warning: When you send a `Command`, new TCP connection will be created automatically.
+This single TCP connection is then used for another command(s). But when you are done,
 **you should close the connection**.
 
-:information_source: Note that when call `device.disconnect()` and then call 
+:information_source: Note that when you call `device.disconnect()` and then call 
 for example `device.turnOff()`, new TCP connection will be created automatically.
 
 :information_source: Also note that Yeelight connections are rate-limited to 60 per minute.

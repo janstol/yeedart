@@ -58,16 +58,21 @@ void main() {
     );
   });
 
-  test('toString() returns correct value', () {
-    const color = 255;
-    const brightness = 50;
-    const duration = Duration(milliseconds: 250);
+  test('hashCode returns correct value', () {
+    final transition = _createTestFlowTransition();
 
-    final transition = FlowTransition.rgb(
-      color: color,
-      brightness: brightness,
-      duration: duration,
+    expect(
+      transition.hashCode,
+      transition.duration.hashCode ^
+          transition.mode.hashCode ^
+          transition.value.hashCode ^
+          transition.brightness.hashCode ^
+          transition.runtimeType.hashCode,
     );
+  });
+
+  test('toString() returns correct value', () {
+    final transition = _createTestFlowTransition();
 
     expect(
       transition.toString(),
@@ -76,4 +81,16 @@ void main() {
       'brightness: ${transition.brightness})',
     );
   });
+}
+
+FlowTransition _createTestFlowTransition() {
+  const color = 255;
+  const brightness = 50;
+  const duration = Duration(milliseconds: 250);
+
+  return FlowTransition.rgb(
+    color: color,
+    brightness: brightness,
+    duration: duration,
+  );
 }

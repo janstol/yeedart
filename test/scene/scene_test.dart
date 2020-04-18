@@ -46,6 +46,17 @@ void main() {
     );
   });
 
+  test('hashCode returns correct value', () {
+    final scene = Scene.color(color: 255, brightness: 50);
+    expect(
+      scene.hashCode,
+      scene.sceneClass.hashCode ^
+          scene.val1.hashCode ^
+          scene.val2.hashCode ^
+          scene.val3.hashCode,
+    );
+  });
+
   test('toString() returns correct value', () {
     final scene = Scene.color(color: 255, brightness: 50);
     expect(

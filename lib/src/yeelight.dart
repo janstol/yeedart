@@ -69,6 +69,13 @@ class Yeelight {
     return responses;
   }
 
+  /// Message should follow this format:
+  /// ```
+  /// M-SEARCH * HTTP/1.1
+  /// HOST: 239.255.255.250:1982
+  /// MAN: "ssdp:discover"
+  /// ST: wifi_bulb
+  /// ```
   static String createDiscoveryMessage(
     InternetAddress internetAddress,
     int port,

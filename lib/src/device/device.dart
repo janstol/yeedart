@@ -34,6 +34,36 @@ class Device {
     commandSender ??= TCPCommandSender(address: address, port: port);
   }
 
+  /// Returns true if device is connected (connection exists).
+  bool get isConnected => commandSender.isConnected;
+
+  /// When there is a device state change, the device will send a notification
+  /// message to all connected clients. This is to make sure all clients will
+  /// get the latest device state in time without having to poll the status
+  /// from time to time.
+  ///
+  /// Example:
+  /// ```dart
+  /// device.notificationMessageStream.listen((message) {
+  ///   // do something with message
+  /// })
+  /// ```
+  Stream<NotificationMessage> get notificationMessageStream {
+    return commandSender.connectionStream.map((event) {
+      try {
+        final parsed = json.decode(utf8.decode(event)) as Map<String, dynamic>;
+        final msg = NotificationMessage.fromJson(parsed);
+
+        if (msg.params != null && msg.method != null) {
+          return msg;
+        }
+      } catch (_) {
+        // when parsing fails, do nothing
+      }
+      return const NotificationMessage(method: null, params: null);
+    });
+  }
+
   /// This method is used to retrieve current property of the device.
   ///
   /// * [parameters] - a list of property names and the response contains
@@ -80,6 +110,8 @@ class Device {
     Effect effect = const Effect.smooth(),
     Duration duration = const Duration(milliseconds: 30),
   }) async {
+    _checkLightType(lightType);
+
     final cmd = lightType == LightType.main
         ? Command.setColorTemperature(
             id: id,
@@ -124,6 +156,8 @@ class Device {
     Effect effect = const Effect.smooth(),
     Duration duration = const Duration(milliseconds: 30),
   }) async {
+    _checkLightType(lightType);
+
     final cmd = lightType == LightType.main
         ? Command.setRGB(
             id: id,
@@ -170,6 +204,8 @@ class Device {
     Effect effect = const Effect.smooth(),
     Duration duration = const Duration(milliseconds: 30),
   }) async {
+    _checkLightType(lightType);
+
     final cmd = lightType == LightType.main
         ? Command.setHSV(
             id: id,
@@ -185,6 +221,7 @@ class Device {
             effect: effect.value,
             duration: duration.inMilliseconds,
           );
+
     return commandSender.sendCommand(cmd);
   }
 
@@ -215,6 +252,8 @@ class Device {
     Effect effect = const Effect.smooth(),
     Duration duration = const Duration(milliseconds: 30),
   }) async {
+    _checkLightType(lightType);
+
     final cmd = lightType == LightType.main
         ? Command.setBrightness(
             id: id,
@@ -315,6 +354,8 @@ class Device {
   /// device.setDefault();
   /// ```
   Future<CommandResponse> setDefault({int id, LightType lightType}) async {
+    _checkLightType(lightType);
+
     final cmd = lightType == LightType.main
         ? Command.setDefault(id: id)
         : Command.bgSetDefault(id: id);
@@ -350,6 +391,8 @@ class Device {
     LightType lightType = LightType.main,
     @required Flow flow,
   }) async {
+    _checkLightType(lightType);
+
     final cmd = lightType == LightType.main
         ? Command.startColorFlow(
             id: id,
@@ -380,6 +423,8 @@ class Device {
     int id,
     LightType lightType = LightType.main,
   }) async {
+    _checkLightType(lightType);
+
     final cmd = lightType == LightType.main
         ? Command.stopColorFlow(id: id)
         : Command.bgStopColorFlow(id: id);
@@ -403,6 +448,8 @@ class Device {
     LightType lightType = LightType.main,
     @required Scene scene,
   }) async {
+    _checkLightType(lightType);
+
     final cmd = lightType == LightType.main
         ? Command.setScene(
             id: id,
@@ -497,6 +544,8 @@ class Device {
     @required AdjustAction action,
     @required AdjustProperty property,
   }) async {
+    _checkLightType(lightType);
+
     final cmd = lightType == LightType.main
         ? Command.setAdjust(
             id: id,
@@ -580,6 +629,8 @@ class Device {
     @required int percentage,
     @required Duration duration,
   }) async {
+    _checkLightType(lightType);
+
     final cmd = lightType == LightType.main
         ? Command.adjustBrightness(
             id: id,
@@ -615,6 +666,8 @@ class Device {
     @required int percentage,
     @required Duration duration,
   }) async {
+    _checkLightType(lightType);
+
     final cmd = lightType == LightType.main
         ? Command.adjustColorTemperature(
             id: id,
@@ -653,6 +706,8 @@ class Device {
     @required int percentage,
     @required Duration duration,
   }) async {
+    _checkLightType(lightType);
+
     final cmd = lightType == LightType.main
         ? Command.adjustColor(
             id: id,
@@ -672,32 +727,6 @@ class Device {
     return commandSender.sendCommand(command);
   }
 
-  /// When there is a device state change, the device will send a notification
-  /// message to all connected clients. This is to make sure all clients will
-  /// get the latest device state in time without having to poll the status
-  /// from time to time.
-  ///
-  /// Example:
-  /// ```dart
-  /// device.onNotificationReceived((message) {
-  ///   // do something with message
-  /// })
-  /// ```
-  void onNotificationReceived(void Function(NotificationMessage) onData) {
-    commandSender.connectionStream.listen((event) {
-      try {
-        final parsed = json.decode(utf8.decode(event)) as Map<String, dynamic>;
-        final msg = NotificationMessage.fromJson(parsed);
-
-        if (msg.params != null && msg.method != null) {
-          onData(msg);
-        }
-      } catch (_) {
-        // when parsing fails, do nothing
-      }
-    });
-  }
-
   /// Disconnects from device.
   ///
   /// You should close connection when you are finished using it.
@@ -705,8 +734,16 @@ class Device {
     commandSender.close();
   }
 
+  void _checkLightType(LightType lightType) {
+    if (lightType == LightType.both) {
+      throw ArgumentError('setColorTemperature: '
+          'Unsupported lightType: LightType.both. '
+          'LightType.both can be used only for toggling light.');
+    }
+  }
+
   @override
-  int get hashCode => address.hashCode ^ port.hashCode ^ commandSender.hashCode;
+  int get hashCode => address.hashCode ^ port.hashCode ^ runtimeType.hashCode;
 
   @override
   bool operator ==(Object other) {
@@ -714,8 +751,7 @@ class Device {
         other is Device &&
             runtimeType == other.runtimeType &&
             address == other.address &&
-            port == other.port &&
-            commandSender == other.commandSender;
+            port == other.port;
   }
 
   @override

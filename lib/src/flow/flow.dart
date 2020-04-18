@@ -1,8 +1,7 @@
+import 'package:collection/collection.dart';
 import 'package:meta/meta.dart';
 import 'package:yeedart/src/flow/flow_action.dart';
 import 'package:yeedart/src/flow/flow_transition.dart';
-import 'package:yeedart/src/util/enum.dart';
-import 'package:collection/collection.dart';
 
 /// Flow used when starting color flow.
 ///
@@ -147,7 +146,11 @@ class Flow {
   static const _listEquality = ListEquality<FlowTransition>();
 
   @override
-  int get hashCode => count.hashCode ^ action.hashCode ^ transitions.hashCode;
+  int get hashCode =>
+      count.hashCode ^
+      action.hashCode ^
+      runtimeType.hashCode ^
+      _listEquality.hash(transitions);
 
   @override
   bool operator ==(Object other) {

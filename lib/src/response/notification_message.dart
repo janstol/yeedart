@@ -15,7 +15,12 @@ class NotificationMessage {
   /// Contains params (keys) that has changed with actual value (values).
   final Map<String, dynamic> params;
 
-  const NotificationMessage({@required this.method, @required this.params});
+  /// The value of [method] currently can only be `props`. If any other value
+  /// is present, it should be deemed as an invalid notification.
+  const NotificationMessage({
+    this.method = 'props',
+    @required this.params,
+  });
 
   /// Creates [NotificationMessage] from JSON.
   NotificationMessage.fromJson(Map<String, dynamic> parsed)
@@ -29,7 +34,8 @@ class NotificationMessage {
   static const _mapEquality = MapEquality<String, dynamic>();
 
   @override
-  int get hashCode => method.hashCode ^ _mapEquality.hash(params);
+  int get hashCode =>
+      method.hashCode ^ runtimeType.hashCode ^ _mapEquality.hash(params);
 
   @override
   bool operator ==(Object other) {

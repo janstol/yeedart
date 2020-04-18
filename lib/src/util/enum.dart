@@ -7,7 +7,7 @@ abstract class Enum<T> {
   T get value => _value;
 
   @override
-  int get hashCode => value.hashCode;
+  int get hashCode => value.hashCode ^ runtimeType.hashCode;
 
   @override
   bool operator ==(Object other) {
