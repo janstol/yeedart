@@ -73,8 +73,7 @@ void main() {
 
     expect(
       sender.sendCommand(Command.toggle()),
-      throwsA(predicate<YeelightConnectionException>(
-          (e) => e.message.contains('Make sure that LAN control is enabled.'))),
+      throwsException,
     );
   });
 
