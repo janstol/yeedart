@@ -1,29 +1,27 @@
 import 'dart:convert';
 
-import 'package:meta/meta.dart';
-
 /// Response to [Command].
 class CommandResponse {
   /// Same as sent id of the sent command.
-  final int id;
+  final int? id;
 
   /// If command is successfully executed, result will be returned.
-  final List<dynamic> result;
+  final List<dynamic>? result;
 
   /// If command fails, error will be returned.
-  final Map<String, dynamic> error;
+  final Map<String, dynamic>? error;
 
   CommandResponse({
-    @required this.id,
+    required this.id,
     this.result,
     this.error,
   });
 
   /// Creates [CommandResponse] from parsed JSON.
   CommandResponse.fromJson(Map<String, dynamic> parsed)
-      : id = parsed['id'] as int,
-        result = parsed['result'] as List,
-        error = parsed['error'] as Map<String, dynamic>;
+      : id = parsed['id'] as int?,
+        result = parsed['result'] as List?,
+        error = parsed['error'] as Map<String, dynamic>?;
 
   /// Indicates whether command was successfully executed or not.
   bool get hasError => error != null;

@@ -10,7 +10,7 @@ import 'package:yeedart/src/scene/scene_class.dart';
 // ignore_for_file: prefer_const_constructors
 void main() {
   group('Command', () {
-    int id;
+    late int id;
     final Random random = Random();
 
     setUp(() {

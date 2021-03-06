@@ -1,5 +1,4 @@
 import 'package:collection/collection.dart';
-import 'package:meta/meta.dart';
 import 'package:yeedart/src/flow/flow_action.dart';
 import 'package:yeedart/src/flow/flow_transition.dart';
 
@@ -25,9 +24,9 @@ class Flow {
   final List<FlowTransition> transitions;
 
   const Flow({
-    @required this.count,
-    @required this.action,
-    @required this.transitions,
+    required this.count,
+    required this.action,
+    required this.transitions,
   });
 
   /// Flow preset - changes color from red, to green to blue.
@@ -89,7 +88,7 @@ class Flow {
 
   /// Flow preset - creates pulse with given [color].
   Flow.pulse({
-    @required int color,
+    required int color,
     int count = 1,
     FlowAction action = const FlowAction.turnOff(),
     int brightness = 100,
@@ -137,7 +136,7 @@ class Flow {
   /// Returns expression that can be sent to the device.
   String get expression => transitions
       .map((t) {
-        return '${t.duration.inMilliseconds},${t.mode.value},${t.value},'
+        return '${t.duration!.inMilliseconds},${t.mode!.value},${t.value},'
             '${t.brightness}';
       })
       .toList()

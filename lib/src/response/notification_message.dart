@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:collection/collection.dart';
-import 'package:meta/meta.dart';
 
 /// [Device] sends a [NotificationMessage] to all connected clients
 /// when there is a state change, to make sure all clients will get the latest
@@ -10,22 +9,22 @@ import 'package:meta/meta.dart';
 /// See [Device.onNotificationReceived].
 class NotificationMessage {
   /// Currently can be only 'props'.
-  final String method;
+  final String? method;
 
   /// Contains params (keys) that has changed with actual value (values).
-  final Map<String, dynamic> params;
+  final Map<String, dynamic>? params;
 
   /// The value of [method] currently can only be `props`. If any other value
   /// is present, it should be deemed as an invalid notification.
   const NotificationMessage({
     this.method = 'props',
-    @required this.params,
+    required this.params,
   });
 
   /// Creates [NotificationMessage] from JSON.
   NotificationMessage.fromJson(Map<String, dynamic> parsed)
-      : method = parsed['method'] as String,
-        params = parsed['params'] as Map<String, dynamic>;
+      : method = parsed['method'] as String?,
+        params = parsed['params'] as Map<String, dynamic>?;
 
   /// Returns raw message (as string).
   String get raw =>

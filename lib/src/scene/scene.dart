@@ -1,4 +1,3 @@
-import 'package:meta/meta.dart';
 import 'package:yeedart/src/flow/flow.dart';
 import 'package:yeedart/src/scene/scene_class.dart';
 
@@ -40,12 +39,17 @@ class Scene {
   /// Represents:
   /// * brightness - when [sceneClass] is [SceneClass.hsv]
   /// * [Flow.expression] - when [sceneClass] is [SceneClass.colorFlow]
-  final String val3;
+  final String? val3;
 
-  const Scene({this.sceneClass, this.val1 = 0, this.val2 = 0, this.val3});
+  const Scene({
+    required this.sceneClass,
+    this.val1 = 0,
+    this.val2 = 0,
+    this.val3,
+  });
 
   /// Change the device to specified [color] and [brightness].
-  const Scene.color({@required int color, @required int brightness})
+  const Scene.color({required int color, required int brightness})
       : this(
           sceneClass: const SceneClass.color(),
           val1: color,
@@ -54,9 +58,9 @@ class Scene {
 
   /// Change the device to specified [color] and [brightness].
   const Scene.hsv({
-    @required int hue,
-    @required int saturation,
-    @required int brightness,
+    required int hue,
+    required int saturation,
+    required int brightness,
   }) : this(
           sceneClass: const SceneClass.hsv(),
           val1: hue,
@@ -66,8 +70,8 @@ class Scene {
 
   /// Change the device to specified [colorTemperature] and [brightness].
   const Scene.colorTemperature({
-    @required int colorTemperature,
-    @required int brightness,
+    required int colorTemperature,
+    required int brightness,
   }) : this(
           sceneClass: const SceneClass.colorTemperature(),
           val1: colorTemperature,
@@ -75,14 +79,14 @@ class Scene {
         );
 
   /// Start a color [flow] in specified style.
-  Scene.colorFlow({@required Flow flow})
+  Scene.colorFlow({required Flow flow})
       : this(sceneClass: const SceneClass.colorFlow(), val3: flow.expression);
 
   /// Turn on the device to specified [brightness] and start a [timer] to
   /// turn off the light after specified number of minutes.
   Scene.autoDelayOff({
-    @required int brightness,
-    @required Duration timer,
+    required int brightness,
+    required Duration timer,
   }) : this(
           sceneClass: const SceneClass.autoDelayOff(),
           val1: brightness,

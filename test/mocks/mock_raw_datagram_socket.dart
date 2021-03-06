@@ -7,18 +7,24 @@ import 'dart:typed_data';
 import '../fixtures/fixtures.dart';
 
 class MockRawDatagramSocket extends RawDatagramSocket {
-  @override
-  InternetAddress get address => null;
+  bool broadcastEnabled = true;
+  int multicastHops = 1;
+  bool multicastLoopback = true;
+  bool readEventsEnabled = true;
+  bool writeEventsEnabled = true;
 
   @override
-  int get port => null;
+  InternetAddress get address => InternetAddress.anyIPv4;
+
+  @override
+  int get port => 1;
 
   @override
   StreamSubscription<RawSocketEvent> listen(
-    void Function(RawSocketEvent event) onData, {
-    Function onError,
-    void Function() onDone,
-    bool cancelOnError,
+    void onData(RawSocketEvent event)?, {
+    Function? onError,
+    void onDone()?,
+    bool? cancelOnError,
   }) {
     return Stream<RawSocketEvent>.value(RawSocketEvent.read).listen(
       onData,
@@ -43,13 +49,13 @@ class MockRawDatagramSocket extends RawDatagramSocket {
   void close() {}
 
   @override
-  Uint8List getRawOption(RawSocketOption option) => null;
+  void joinMulticast(InternetAddress group, [NetworkInterface? interface]) {}
 
   @override
-  void joinMulticast(InternetAddress group, [NetworkInterface interface]) {}
+  void leaveMulticast(InternetAddress group, [NetworkInterface? interface]) {}
 
   @override
-  void leaveMulticast(InternetAddress group, [NetworkInterface interface]) {}
+  Uint8List getRawOption(RawSocketOption option) => Uint8List.fromList([1]);
 
   @override
   void setRawOption(RawSocketOption option) {}

@@ -8,9 +8,9 @@ import 'package:yeedart/yeedart.dart';
 import '../mocks/fake_command_sender.dart';
 
 void main() {
-  Device testDevice;
+  late Device testDevice;
   final Random random = Random();
-  int id;
+  late int id;
 
   setUp(() {
     id = random.nextInt(100);

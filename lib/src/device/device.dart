@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:meta/meta.dart';
 import 'package:yeedart/src/command/enum/adjust_action.dart';
 import 'package:yeedart/src/command/command.dart';
 import 'package:yeedart/src/command/command_sender.dart';
@@ -24,18 +23,18 @@ class Device {
   final int port;
 
   /// Command sender, default is [TCPCommandSender].
-  CommandSender commandSender;
+  CommandSender? commandSender;
 
   Device({
-    @required this.address,
-    @required this.port,
+    required this.address,
+    required this.port,
     this.commandSender,
   }) {
     commandSender ??= TCPCommandSender(address: address, port: port);
   }
 
   /// Returns true if device is connected (connection exists).
-  bool get isConnected => commandSender.isConnected;
+  bool get isConnected => commandSender!.isConnected;
 
   /// When there is a device state change, the device will send a notification
   /// message to all connected clients. This is to make sure all clients will
@@ -49,7 +48,7 @@ class Device {
   /// })
   /// ```
   Stream<NotificationMessage> get notificationMessageStream {
-    return commandSender.connectionStream.map((event) {
+    return commandSender!.connectionStream.map((event) {
       try {
         final parsed = json.decode(utf8.decode(event)) as Map<String, dynamic>;
         final msg = NotificationMessage.fromJson(parsed);
@@ -74,11 +73,11 @@ class Device {
   /// ```dart
   /// device.getProps(parameters: ['power', 'not_exists', 'bright']);
   /// ```
-  Future<CommandResponse> getProps({
-    int id,
-    @required List<String> parameters,
+  Future<CommandResponse?> getProps({
+    int? id,
+    required List<String> parameters,
   }) async {
-    return commandSender.sendCommand(
+    return commandSender!.sendCommand(
       Command.getProp(id: id, parameters: parameters),
     );
   }
@@ -103,10 +102,10 @@ class Device {
   /// );
   /// ```
   /// This command is accepted only if the device is in 'ON' state.
-  Future<CommandResponse> setColorTemperature({
-    int id,
+  Future<CommandResponse?> setColorTemperature({
+    int? id,
     LightType lightType = LightType.main,
-    @required int colorTemperature,
+    required int colorTemperature,
     Effect effect = const Effect.smooth(),
     Duration duration = const Duration(milliseconds: 30),
   }) async {
@@ -126,7 +125,7 @@ class Device {
             duration: duration.inMilliseconds,
           );
 
-    return commandSender.sendCommand(cmd);
+    return commandSender!.sendCommand(cmd);
   }
 
   /// This method is used to set the color of light.
@@ -149,10 +148,10 @@ class Device {
   /// );
   /// ```
   /// This command is accepted only if the device is in 'ON' state.
-  Future<CommandResponse> setRGB({
-    int id,
+  Future<CommandResponse?> setRGB({
+    int? id,
     LightType lightType = LightType.main,
-    @required int color,
+    required int color,
     Effect effect = const Effect.smooth(),
     Duration duration = const Duration(milliseconds: 30),
   }) async {
@@ -172,7 +171,7 @@ class Device {
             duration: duration.inMilliseconds,
           );
 
-    return commandSender.sendCommand(cmd);
+    return commandSender!.sendCommand(cmd);
   }
 
   /// This method is used to set the color of light.
@@ -196,11 +195,11 @@ class Device {
   /// );
   /// ```
   /// This command is accepted only if the device is in 'ON' state.
-  Future<CommandResponse> setHSV({
-    int id,
+  Future<CommandResponse?> setHSV({
+    int? id,
     LightType lightType = LightType.main,
-    @required int hue,
-    @required int saturation,
+    required int hue,
+    required int saturation,
     Effect effect = const Effect.smooth(),
     Duration duration = const Duration(milliseconds: 30),
   }) async {
@@ -222,7 +221,7 @@ class Device {
             duration: duration.inMilliseconds,
           );
 
-    return commandSender.sendCommand(cmd);
+    return commandSender!.sendCommand(cmd);
   }
 
   /// This method is used to change the brightness of light.
@@ -245,10 +244,10 @@ class Device {
   /// );
   /// ```
   /// This command is accepted only if the device is in 'ON' state.
-  Future<CommandResponse> setBrightness({
-    int id,
+  Future<CommandResponse?> setBrightness({
+    int? id,
     LightType lightType = LightType.main,
-    @required int brightness,
+    required int brightness,
     Effect effect = const Effect.smooth(),
     Duration duration = const Duration(milliseconds: 30),
   }) async {
@@ -267,7 +266,7 @@ class Device {
             effect: effect.value,
             duration: duration.inMilliseconds,
           );
-    return commandSender.sendCommand(cmd);
+    return commandSender!.sendCommand(cmd);
   }
 
   /// This method is used to turn the device **ON**.
@@ -282,12 +281,12 @@ class Device {
   /// ```dart
   /// device.turnOn(effect: Effect.sudden());
   /// ```
-  Future<CommandResponse> turnOn({
-    int id,
+  Future<CommandResponse?> turnOn({
+    int? id,
     Effect effect = const Effect.smooth(),
     Duration duration = const Duration(milliseconds: 30),
   }) async {
-    return commandSender.sendCommand(
+    return commandSender!.sendCommand(
       Command.setPower(
         id: id,
         power: 'on',
@@ -309,12 +308,12 @@ class Device {
   /// ```dart
   /// device.turnOff();
   /// ```
-  Future<CommandResponse> turnOff({
-    int id,
+  Future<CommandResponse?> turnOff({
+    int? id,
     Effect effect = const Effect.sudden(),
     Duration duration = const Duration(milliseconds: 30),
   }) async {
-    return commandSender.sendCommand(
+    return commandSender!.sendCommand(
       Command.setPower(
         id: id,
         power: 'off',
@@ -333,13 +332,13 @@ class Device {
   /// ```dart
   /// device.toggle();
   /// ```
-  Future<CommandResponse> toggle({int id, LightType lightType}) async {
+  Future<CommandResponse?> toggle({int? id, LightType? lightType}) async {
     if (lightType == LightType.main) {
-      return commandSender.sendCommand(Command.toggle(id: id));
+      return commandSender!.sendCommand(Command.toggle(id: id));
     } else if (lightType == LightType.backgroud) {
-      return commandSender.sendCommand(Command.bgToggle(id: id));
+      return commandSender!.sendCommand(Command.bgToggle(id: id));
     } else {
-      return commandSender.sendCommand(Command.devToggle(id: id));
+      return commandSender!.sendCommand(Command.devToggle(id: id));
     }
   }
 
@@ -353,13 +352,13 @@ class Device {
   /// ```dart
   /// device.setDefault();
   /// ```
-  Future<CommandResponse> setDefault({int id, LightType lightType}) async {
+  Future<CommandResponse?> setDefault({int? id, LightType? lightType}) async {
     _checkLightType(lightType);
 
     final cmd = lightType == LightType.main
         ? Command.setDefault(id: id)
         : Command.bgSetDefault(id: id);
-    return commandSender.sendCommand(cmd);
+    return commandSender!.sendCommand(cmd);
   }
 
   /// This method is used to start a color flow.
@@ -386,10 +385,10 @@ class Device {
   /// ```dart
   /// device.startFlow(flow: Flow.rgb())
   /// ```
-  Future<CommandResponse> startFlow({
-    int id,
+  Future<CommandResponse?> startFlow({
+    int? id,
     LightType lightType = LightType.main,
-    @required Flow flow,
+    required Flow flow,
   }) async {
     _checkLightType(lightType);
 
@@ -407,7 +406,7 @@ class Device {
             flowExpression: flow.expression,
           );
 
-    return commandSender.sendCommand(cmd);
+    return commandSender!.sendCommand(cmd);
   }
 
   /// This method is used to stop a running color flow.
@@ -419,8 +418,8 @@ class Device {
   /// ```dart
   /// device.stopFlow();
   /// ```
-  Future<CommandResponse> stopFlow({
-    int id,
+  Future<CommandResponse?> stopFlow({
+    int? id,
     LightType lightType = LightType.main,
   }) async {
     _checkLightType(lightType);
@@ -428,7 +427,7 @@ class Device {
     final cmd = lightType == LightType.main
         ? Command.stopColorFlow(id: id)
         : Command.bgStopColorFlow(id: id);
-    return commandSender.sendCommand(cmd);
+    return commandSender!.sendCommand(cmd);
   }
 
   /// This method is used to set the device (**main light**) directly to
@@ -443,10 +442,10 @@ class Device {
   /// ```dart
   /// device.setScene();
   /// ```
-  Future<CommandResponse> setScene({
-    int id,
+  Future<CommandResponse?> setScene({
+    int? id,
     LightType lightType = LightType.main,
-    @required Scene scene,
+    required Scene scene,
   }) async {
     _checkLightType(lightType);
 
@@ -466,7 +465,7 @@ class Device {
             val3: scene.val3,
           );
 
-    return commandSender.sendCommand(cmd);
+    return commandSender!.sendCommand(cmd);
   }
 
   /// This method is used to start a timer.
@@ -480,8 +479,8 @@ class Device {
   /// ```dart
   /// device.cronAdd(timer: Duration(minutes: 10));
   /// ```
-  Future<CommandResponse> cronAdd({int id, @required Duration timer}) async {
-    return commandSender.sendCommand(
+  Future<CommandResponse?> cronAdd({int? id, required Duration timer}) async {
+    return commandSender!.sendCommand(
       Command.cronAdd(id: id, value: timer.inMinutes),
     );
   }
@@ -498,8 +497,8 @@ class Device {
   /// ```dart
   /// device.cronGet();
   /// ```
-  Future<CommandResponse> cronGet({int id}) async {
-    return commandSender.sendCommand(Command.cronGet(id: id));
+  Future<CommandResponse?> cronGet({int? id}) async {
+    return commandSender!.sendCommand(Command.cronGet(id: id));
   }
 
   /// This method is used to stop the specified cron job.
@@ -513,8 +512,8 @@ class Device {
   /// ```dart
   /// device.cronDelete();
   /// ```
-  Future<CommandResponse> cronDelete({int id}) async {
-    return commandSender.sendCommand(Command.cronDelete(id: id));
+  Future<CommandResponse?> cronDelete({int? id}) async {
+    return commandSender!.sendCommand(Command.cronDelete(id: id));
   }
 
   /// This method is used to change brightness, color temperature or color of
@@ -538,11 +537,11 @@ class Device {
   ///   property: AdjustProperty.brightness(),
   /// );
   /// ```
-  Future<CommandResponse> setAdjust({
-    int id,
+  Future<CommandResponse?> setAdjust({
+    int? id,
     LightType lightType = LightType.main,
-    @required AdjustAction action,
-    @required AdjustProperty property,
+    required AdjustAction action,
+    required AdjustProperty property,
   }) async {
     _checkLightType(lightType);
 
@@ -557,7 +556,7 @@ class Device {
             action: action.value,
             property: property.value,
           );
-    return commandSender.sendCommand(cmd);
+    return commandSender!.sendCommand(cmd);
   }
 
   /// This method is used to start or stop music mode on device.
@@ -576,13 +575,13 @@ class Device {
   ///   port: 54321,
   /// );
   /// ```
-  Future<CommandResponse> setMusic({
-    int id,
-    @required int action,
-    @required String host,
-    @required int port,
+  Future<CommandResponse?> setMusic({
+    int? id,
+    required int action,
+    required String host,
+    required int port,
   }) async {
-    return commandSender.sendCommand(Command.setMusic(
+    return commandSender!.sendCommand(Command.setMusic(
       id: id,
       action: action,
       host: host,
@@ -604,8 +603,8 @@ class Device {
   /// ```dart
   /// device.setName(name: 'My bulb');
   /// ```
-  Future<CommandResponse> setName({int id, @required String name}) async {
-    return commandSender.sendCommand(Command.setName(id: id, name: name));
+  Future<CommandResponse?> setName({int? id, required String name}) async {
+    return commandSender!.sendCommand(Command.setName(id: id, name: name));
   }
 
   /// This method is used to adjust the brightness by specified percentage
@@ -623,11 +622,11 @@ class Device {
   ///   duration: Duration(milliseconds: 500),
   /// );
   /// ```
-  Future<CommandResponse> adjustBrightness({
-    int id,
+  Future<CommandResponse?> adjustBrightness({
+    int? id,
     LightType lightType = LightType.main,
-    @required int percentage,
-    @required Duration duration,
+    required int percentage,
+    required Duration duration,
   }) async {
     _checkLightType(lightType);
 
@@ -642,7 +641,7 @@ class Device {
             percentage: percentage,
             duration: duration.inMilliseconds,
           );
-    return commandSender.sendCommand(cmd);
+    return commandSender!.sendCommand(cmd);
   }
 
   /// This method is used to adjust the color temperature by specified
@@ -660,11 +659,11 @@ class Device {
   ///   duration: Duration(milliseconds: 500),
   /// );
   /// ```
-  Future<CommandResponse> adjustColorTemperature({
-    int id,
+  Future<CommandResponse?> adjustColorTemperature({
+    int? id,
     LightType lightType = LightType.main,
-    @required int percentage,
-    @required Duration duration,
+    required int percentage,
+    required Duration duration,
   }) async {
     _checkLightType(lightType);
 
@@ -680,7 +679,7 @@ class Device {
             duration: duration.inMilliseconds,
           );
 
-    return commandSender.sendCommand(cmd);
+    return commandSender!.sendCommand(cmd);
   }
 
   /// This method is used to adjust the color within specified duration.
@@ -700,11 +699,11 @@ class Device {
   ///
   /// NOTE: The percentage parameter will be ignored and the color is
   /// internally defined and can’t specified.
-  Future<CommandResponse> adjustColor({
-    int id,
+  Future<CommandResponse?> adjustColor({
+    int? id,
     LightType lightType = LightType.main,
-    @required int percentage,
-    @required Duration duration,
+    required int percentage,
+    required Duration duration,
   }) async {
     _checkLightType(lightType);
 
@@ -719,22 +718,22 @@ class Device {
             percentage: percentage,
             duration: duration.inMilliseconds,
           );
-    return commandSender.sendCommand(cmd);
+    return commandSender!.sendCommand(cmd);
   }
 
   /// Allows to send any [Command].
-  Future<CommandResponse> sendCommand(Command command) async {
-    return commandSender.sendCommand(command);
+  Future<CommandResponse?> sendCommand(Command command) async {
+    return commandSender!.sendCommand(command);
   }
 
   /// Disconnects from device.
   ///
   /// You should close connection when you are finished using it.
   void disconnect() {
-    commandSender.close();
+    commandSender!.close();
   }
 
-  void _checkLightType(LightType lightType) {
+  void _checkLightType(LightType? lightType) {
     if (lightType == LightType.both) {
       throw ArgumentError('setColorTemperature: '
           'Unsupported lightType: LightType.both. '

@@ -8,7 +8,7 @@ import 'package:yeedart/src/response/command_response.dart';
 import 'package:yeedart/src/response/notification_message.dart';
 
 class FakeCommandSender implements CommandSender {
-  StreamController<Uint8List> _controller;
+  late StreamController<Uint8List> _controller;
   Stream<Uint8List> _stream = const Stream.empty();
   bool _connected = false;
 

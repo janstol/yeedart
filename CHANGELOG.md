@@ -1,3 +1,6 @@
+## [0.3.0] - 2021-03-06
+* migrated to null-safety
+
 ## [0.2.0] - 2020-04-18
 * **BC**: removed `Parser`, use `DiscoveryResponse.fromRawResponse` factory constructor instead
 * **BC**: removed `Device.onNotificationReceived`, use `Device.notificationMessageStream` stream instead

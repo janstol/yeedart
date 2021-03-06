@@ -9,7 +9,7 @@ import 'package:yeedart/src/exception/exception.dart';
 import 'package:yeedart/src/response/command_response.dart';
 
 void main() {
-  ServerSocket server;
+  late ServerSocket server;
 
   setUp(() async {
     server = await ServerSocket.bind(InternetAddress.anyIPv4, 55555);

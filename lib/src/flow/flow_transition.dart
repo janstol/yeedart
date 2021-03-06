@@ -1,4 +1,3 @@
-import 'package:meta/meta.dart';
 import 'package:yeedart/src/flow/flow_transition_mode.dart';
 
 /// Transition used in [Flow].
@@ -7,24 +6,24 @@ class FlowTransition {
   /// or sleep time when [mode] is [FlowTransitionMode.sleep]
   ///
   /// Minimum is 50 milliseconds.
-  final Duration duration;
+  final Duration? duration;
 
   /// Mode which will be used for transition;
   ///
   /// * [FlowTransitionMode.color]
   /// * [FlowTransitionMode.colorTemperature]
   /// * or [FlowTransitionMode.sleep]
-  final FlowTransitionMode mode;
+  final FlowTransitionMode? mode;
 
   /// Color when [mode] is [FlowTransitionMode.color] or color temperature when
   /// [mode] is [FlowTransitionMode.colorTemperature].
   ///
   /// Value is ignored when [mode] is [FlowTransitionMode.sleep].
-  final int value;
+  final int? value;
 
   /// Brightness value from 1 to 100. When set to -1, brightness is ignored.
   /// Ignored when when [mode] is [FlowTransitionMode.sleep]
-  final int brightness;
+  final int? brightness;
 
   /// Creates [FlowTransition].
   const FlowTransition({this.duration, this.mode, this.value, this.brightness});
@@ -32,8 +31,8 @@ class FlowTransition {
   /// Creates [FlowTransition] with RGB value and brightness.
   const FlowTransition.rgb({
     Duration duration = const Duration(milliseconds: 500),
-    @required int color,
-    @required int brightness,
+    required int color,
+    required int brightness,
   }) : this(
           duration: duration,
           mode: const FlowTransitionMode.color(),
@@ -44,8 +43,8 @@ class FlowTransition {
   /// Creates [FlowTransition] with color temperature and brightness.
   const FlowTransition.colorTemperature({
     Duration duration = const Duration(milliseconds: 500),
-    @required int colorTemperature,
-    @required int brightness,
+    required int colorTemperature,
+    required int brightness,
   }) : this(
           duration: duration,
           mode: const FlowTransitionMode.colorTemperature(),

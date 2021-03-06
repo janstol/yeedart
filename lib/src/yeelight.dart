@@ -34,7 +34,7 @@ class Yeelight {
     Duration timeout = const Duration(seconds: 2),
     String address = _address,
     int port = _port,
-    RawDatagramSocket socket,
+    RawDatagramSocket? socket,
   }) async {
     final internetAddress = InternetAddress(address);
     final message = createDiscoveryMessage(internetAddress, port);

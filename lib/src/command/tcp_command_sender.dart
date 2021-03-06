@@ -14,13 +14,13 @@ class TCPCommandSender implements CommandSender {
   final int port;
 
   @visibleForTesting
-  Socket socket;
+  Socket? socket;
 
   Stream<Uint8List> _socketStream = const Stream.empty();
 
   bool _connected = false;
 
-  TCPCommandSender({@required this.address, @required this.port});
+  TCPCommandSender({required this.address, required this.port});
 
   @override
   bool get isConnected => _connected;
@@ -29,15 +29,15 @@ class TCPCommandSender implements CommandSender {
   Stream<Uint8List> get connectionStream => _socketStream.asBroadcastStream();
 
   @override
-  Future<CommandResponse> sendCommand(Command command) async {
-    CommandResponse response;
+  Future<CommandResponse?> sendCommand(Command command) async {
+    CommandResponse? response;
 
     if (!_connected) {
       await _connect();
     }
     // print(command);
 
-    socket.add(utf8.encode(command.message));
+    socket!.add(utf8.encode(command.message));
 
     await for (final data in _socketStream) {
       final jsonMap = json.decode(utf8.decode(data)) as Map<String, dynamic>;
@@ -53,22 +53,22 @@ class TCPCommandSender implements CommandSender {
   Future<void> _connect() async {
     try {
       socket = await Socket.connect(address, port);
-      _socketStream = socket.asBroadcastStream();
+      _socketStream = socket!.asBroadcastStream();
       _connected = true;
       //print('Connected to ${address.address}:$port');
     } on SocketException catch (e) {
-      String additionalInfo;
-      if (e.osError.errorCode == 1225) {
+      String? additionalInfo;
+      if (e.osError!.errorCode == 1225) {
         additionalInfo = ' Make sure that LAN control is enabled.';
       }
-      throw YeelightConnectionException('${e.osError.message}$additionalInfo');
+      throw YeelightConnectionException('${e.osError!.message}$additionalInfo');
     }
   }
 
   /// Disconnects TCP connection.
   @override
   void close() {
-    socket.destroy();
+    socket!.destroy();
     _connected = false;
   }
 

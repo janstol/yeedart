@@ -4,13 +4,13 @@ import 'package:yeedart/yeedart.dart';
 
 Future<void> main() async {
   // Discover devices
-//  final responses = await Yeelight.discover();
-//  final response = responses.first;
-//  final device = Device(address: response.address, port: response.port);
-//  device.turnOn();
-//  await Future<void>.delayed(const Duration(seconds: 3));
-//  device.turnOff();
-//  device.disconnect();
+ // final responses = await Yeelight.discover();
+ // final response = responses.first;
+ // final device = Device(address: response.address, port: response.port!);
+ // device.turnOn();
+ // await Future<void>.delayed(const Duration(seconds: 3));
+ // device.turnOff();
+ // device.disconnect();
 
   // Connect directly to device
   final device = Device(

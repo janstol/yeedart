@@ -12,7 +12,7 @@ abstract class CommandSender {
   Stream<Uint8List> get connectionStream;
 
   /// Sends command to the device.
-  Future<CommandResponse> sendCommand(Command command);
+  Future<CommandResponse?> sendCommand(Command command);
 
   /// Closes connection to the device.
   void close();
