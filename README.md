@@ -64,6 +64,8 @@ and other properties (name, firmware version, current state,...).
 
 :information_source: You can also specify timeout for discovery. Default is 2 seconds.
 
+> Note that for device discovery to properly work on Android, you at least need the `INTERNET` permission granted.
+
 ### Connect to the device
 
 ```dart
