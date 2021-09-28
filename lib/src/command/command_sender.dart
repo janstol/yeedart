@@ -11,8 +11,11 @@ abstract class CommandSender {
   bool get isConnected;
   Stream<Uint8List> get connectionStream;
 
-  /// Sends command to the device.
+  /// Creates connections and sends command to the device.
   Future<CommandResponse?> sendCommand(Command command);
+
+  /// Connects to the device manually.
+  Future<void> connect();
 
   /// Closes connection to the device.
   void close();

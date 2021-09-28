@@ -26,7 +26,7 @@ More info about Yeelight API:
 Add this to your package's pubspec.yaml file:
 ```yaml
 dependencies:
-  yeedart: ^0.3.0
+  yeedart: ^0.3.1
 ```
 2. **Install it**
 
@@ -88,12 +88,14 @@ await device.setBrightness(brightness: 70); // set brightness to 70 %
 device.disconnect(); // always disconnect when you are done!
 ```
 
-:warning: When you send a `Command`, new TCP connection will be created automatically.
+:warning: When you send a `Command`, **new TCP connection will be created automatically**.
 This single TCP connection is then used for another command(s). But when you are done,
 **you should close the connection**.
 
 :information_source: Note that when you call `device.disconnect()` and then call 
 for example `device.turnOff()`, new TCP connection will be created automatically.
+
+:information_source: If you don't want to send any command and just listen on the `notificationMessageStream`, use the `device.connect()` to create a connection manually.
 
 :information_source: Also note that Yeelight connections are rate-limited to 60 per minute.
 

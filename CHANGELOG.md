@@ -1,3 +1,6 @@
+## [0.3.1] - 2021-09-28
+* added `Device.connect` method to manually connect to the device
+
 ## [0.3.0] - 2021-03-06
 * migrated to null-safety
 

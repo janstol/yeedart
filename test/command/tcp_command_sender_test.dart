@@ -108,6 +108,17 @@ void main() {
     );
   });
 
+  test('should connect and disconnect', () async {
+    final sender = TCPCommandSender(
+      address: InternetAddress('127.0.0.1'),
+      port: 55555,
+    );
+
+    expect(sender.isConnected, false);
+    await sender.connect();
+    expect(sender.isConnected, true);
+  });
+
 //  RawDatagramSocket.bind(InternetAddress.anyIPv4, 8889)
 //      .then((RawDatagramSocket udpSocket) {
 //    print('${udpSocket.address.address}:${udpSocket.port}');

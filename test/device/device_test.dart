@@ -519,6 +519,14 @@ void main() {
     await testDevice.setBrightness(brightness: 50);
   });
 
+  test('connect and disconnect', () async {
+    expect(testDevice.isConnected, false);
+    await testDevice.connect();
+    expect(testDevice.isConnected, true);
+    testDevice.disconnect();
+    expect(testDevice.isConnected, false);
+  });
+
   test('isConnected - device should be disconnected by default', () async {
     expect(testDevice.isConnected, false);
     await testDevice.turnOn();

@@ -55,6 +55,7 @@ class FakeCommandSender implements CommandSender {
   }
 
   /// Creates TCP connection to [address] and [port].
+  @override
   Future<void> connect() async {
     _controller = StreamController.broadcast();
     _stream = _controller.stream.asBroadcastStream();

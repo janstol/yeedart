@@ -726,6 +726,15 @@ class Device {
     return commandSender!.sendCommand(command);
   }
 
+  /// Creates connection to the device.
+  ///
+  /// You have to call this only when don't send any command. For example when
+  /// you only want to connect to the device
+  /// and listen `notificationMessageStream`.
+  Future<void> connect() async {
+    await commandSender!.connect();
+  }
+
   /// Disconnects from device.
   ///
   /// You should close connection when you are finished using it.

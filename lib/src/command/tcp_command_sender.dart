@@ -4,9 +4,9 @@ import 'dart:typed_data';
 
 import 'package:meta/meta.dart';
 import 'package:yeedart/src/command/command.dart';
-import 'package:yeedart/src/response/command_response.dart';
-import 'package:yeedart/src/exception/exception.dart';
 import 'package:yeedart/src/command/command_sender.dart';
+import 'package:yeedart/src/exception/exception.dart';
+import 'package:yeedart/src/response/command_response.dart';
 
 /// Implementation of [CommandSender]
 class TCPCommandSender implements CommandSender {
@@ -32,9 +32,7 @@ class TCPCommandSender implements CommandSender {
   Future<CommandResponse?> sendCommand(Command command) async {
     CommandResponse? response;
 
-    if (!_connected) {
-      await _connect();
-    }
+    if (!_connected) await connect();
     // print(command);
 
     socket!.add(utf8.encode(command.message));
@@ -50,12 +48,16 @@ class TCPCommandSender implements CommandSender {
   }
 
   /// Creates TCP connection to [address] and [port].
-  Future<void> _connect() async {
+  /// Note: You don't have to call this method when you use `sendCommand`.
+  @override
+  Future<void> connect() async {
+    if (_connected) return;
+
     try {
       socket = await Socket.connect(address, port);
       _socketStream = socket!.asBroadcastStream();
       _connected = true;
-      //print('Connected to ${address.address}:$port');
+      // print('Connected to ${address.address}:$port');
     } on SocketException catch (e) {
       String? additionalInfo;
       if (e.osError!.errorCode == 1225) {
