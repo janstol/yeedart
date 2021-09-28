@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:yeedart/yeedart.dart';
 
 Future<void> main() async {

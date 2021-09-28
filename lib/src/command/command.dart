@@ -488,6 +488,7 @@ class Command {
   String toString() => 'Command: $message';
 }
 
+// ignore: avoid_classes_with_only_static_members
 /// All methods that can be used to control Yeelight devices.
 ///
 /// Note that some devices does not support all methods.

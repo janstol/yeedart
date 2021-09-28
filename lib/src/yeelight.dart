@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:yeedart/src/response/discovery_response.dart';
 
+// ignore: avoid_classes_with_only_static_members
 class Yeelight {
   static const _address = '239.255.255.250';
   static const _port = 1982;

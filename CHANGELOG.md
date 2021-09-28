@@ -1,3 +1,6 @@
+## [0.3.1+1] - 2021-09-28
+* lints and formatting fixes
+
 ## [0.3.1] - 2021-09-28
 * added `Device.connect` method to manually connect to the device
 

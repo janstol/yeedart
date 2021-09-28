@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:yeedart/src/command/enum/adjust_action.dart';
 import 'package:yeedart/src/command/command.dart';
 import 'package:yeedart/src/command/command_sender.dart';
+import 'package:yeedart/src/command/enum/adjust_action.dart';
 import 'package:yeedart/src/command/enum/adjust_property.dart';
 import 'package:yeedart/src/command/enum/effect.dart';
 import 'package:yeedart/src/command/tcp_command_sender.dart';

@@ -1,6 +1,6 @@
 name: yeedart
 description: Simple Dart library that lets you control Yeelight devices over LAN.
-version: 0.3.1
+version: 0.3.1+1
 homepage: https://github.com/janstol/yeedart
 
 environment:
