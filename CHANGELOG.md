@@ -1,3 +1,6 @@
+## [0.3.1+2] - 2021-09-28
+* dart format
+
 ## [0.3.1+1] - 2021-09-28
 * lints and formatting fixes
 

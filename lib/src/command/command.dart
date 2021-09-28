@@ -41,7 +41,7 @@ class Command {
     required int colorTemperature,
     required String effect,
     required int duration,
-  })   : method = CommandMethods.setCtAbx,
+  })  : method = CommandMethods.setCtAbx,
         parameters = <dynamic>[colorTemperature, effect, duration];
 
   /// Command to set color of the device (main light).
@@ -57,7 +57,7 @@ class Command {
     required int rgb,
     required String effect,
     required int duration,
-  })   : method = CommandMethods.setRGB,
+  })  : method = CommandMethods.setRGB,
         parameters = <dynamic>[rgb, effect, duration];
 
   /// Command to set color of the device (main light).
@@ -75,7 +75,7 @@ class Command {
     required int saturation,
     required String effect,
     required int duration,
-  })   : method = CommandMethods.setHSV,
+  })  : method = CommandMethods.setHSV,
         parameters = <dynamic>[hue, saturation, effect, duration];
 
   /// Command to set brightness of the device (main light).
@@ -91,7 +91,7 @@ class Command {
     required int brightness,
     required String effect,
     required int duration,
-  })   : method = CommandMethods.setBright,
+  })  : method = CommandMethods.setBright,
         parameters = <dynamic>[brightness, effect, duration];
 
   /// Command to switch on or off the device (main light).
@@ -154,7 +154,7 @@ class Command {
     required int count,
     required int action,
     required String flowExpression,
-  })   : method = CommandMethods.startCF,
+  })  : method = CommandMethods.startCF,
         parameters = <dynamic>[count, action, flowExpression];
 
   /// Command to stop a running color flow.
@@ -239,7 +239,7 @@ class Command {
     this.id,
     required String action,
     required String property,
-  })   : method = CommandMethods.setAdjust,
+  })  : method = CommandMethods.setAdjust,
         parameters = <String>[action, property];
 
   /// Command to start or stop music mode (main light).
@@ -255,7 +255,7 @@ class Command {
     required int action,
     required String host,
     required int port,
-  })   : method = CommandMethods.setMusic,
+  })  : method = CommandMethods.setMusic,
         parameters = <dynamic>[action, host, port];
 
   /// Command to set name for the device. The name will be stored on the device
@@ -276,7 +276,7 @@ class Command {
     required int rgb,
     required String effect,
     required int duration,
-  })   : method = CommandMethods.bgSetRGB,
+  })  : method = CommandMethods.bgSetRGB,
         parameters = <dynamic>[rgb, effect, duration];
 
   /// Command to set color of the background light.
@@ -288,7 +288,7 @@ class Command {
     required int saturation,
     required String effect,
     required int duration,
-  })   : method = CommandMethods.bgSetHSV,
+  })  : method = CommandMethods.bgSetHSV,
         parameters = <dynamic>[hue, saturation, effect, duration];
 
   /// Command to set color temperature of the background light.
@@ -299,7 +299,7 @@ class Command {
     required int colorTemperature,
     required String effect,
     required int duration,
-  })   : method = CommandMethods.bgSetCtAbx,
+  })  : method = CommandMethods.bgSetCtAbx,
         parameters = <dynamic>[colorTemperature, effect, duration];
 
   /// Command to start a color flow (background light).
@@ -310,7 +310,7 @@ class Command {
     required int count,
     required int action,
     required String flowExpression,
-  })   : method = CommandMethods.bgStartCF,
+  })  : method = CommandMethods.bgStartCF,
         parameters = <dynamic>[count, action, flowExpression];
 
   /// Command to stop a running color flow (background light).
@@ -357,7 +357,7 @@ class Command {
     required int brightness,
     required String effect,
     required int duration,
-  })   : method = CommandMethods.bgSetBright,
+  })  : method = CommandMethods.bgSetBright,
         parameters = <dynamic>[brightness, effect, duration];
 
   /// Command to change brightness, color temperature or color without knowing
@@ -368,7 +368,7 @@ class Command {
     this.id,
     required String action,
     required String property,
-  })   : method = CommandMethods.bgSetAdjust,
+  })  : method = CommandMethods.bgSetAdjust,
         parameters = <String>[action, property];
 
   /// Command to toggle the background light.
@@ -399,7 +399,7 @@ class Command {
     this.id,
     required int percentage,
     required int duration,
-  })   : method = CommandMethods.adjustBright,
+  })  : method = CommandMethods.adjustBright,
         parameters = <int>[percentage, duration];
 
   /// Command to adjust the color temperature by specified percentage within
@@ -412,7 +412,7 @@ class Command {
     this.id,
     required int percentage,
     required int duration,
-  })   : method = CommandMethods.adjustCT,
+  })  : method = CommandMethods.adjustCT,
         parameters = <int>[percentage, duration];
 
   /// Command to adjust the color  within specified duration.
@@ -426,7 +426,7 @@ class Command {
     this.id,
     required int percentage,
     required int duration,
-  })   : method = CommandMethods.adjustColor,
+  })  : method = CommandMethods.adjustColor,
         parameters = <int>[percentage, duration];
 
   /// Command to adjust the brightness by specified percentage within specified
@@ -437,7 +437,7 @@ class Command {
     this.id,
     required int percentage,
     required int duration,
-  })   : method = CommandMethods.bgAdjustBright,
+  })  : method = CommandMethods.bgAdjustBright,
         parameters = <int>[percentage, duration];
 
   /// Command to adjust the color temperature by specified percentage within
@@ -448,7 +448,7 @@ class Command {
     this.id,
     required int percentage,
     required int duration,
-  })   : method = CommandMethods.bgAdjustCT,
+  })  : method = CommandMethods.bgAdjustCT,
         parameters = <int>[percentage, duration];
 
   /// Command to adjust the color  within specified duration (background light).
@@ -458,7 +458,7 @@ class Command {
     this.id,
     required int percentage,
     required int duration,
-  })   : method = CommandMethods.bgAdjustColor,
+  })  : method = CommandMethods.bgAdjustColor,
         parameters = <int>[percentage, duration];
 
   /// Command message. Used when sending command.
