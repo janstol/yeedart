@@ -57,9 +57,14 @@ class Yeelight {
         final datagram = udpSocket.receive();
         if (datagram != null && datagram.data.isNotEmpty) {
           //print(utf8.decode(datagram.data));
-          final response =
-              DiscoveryResponse.fromRawResponse(utf8.decode(datagram.data));
-
+          DiscoveryResponse response;
+          try {
+            response =
+                DiscoveryResponse.fromRawResponse(utf8.decode(datagram.data));
+          } catch (e) {
+            // print('Error adding device ip ${datagram.address.address}  $e');
+            continue;
+          }
           if (!responses.contains(response)) {
             responses.add(response);
           }
