@@ -3,6 +3,10 @@ import 'package:yeedart/yeedart.dart';
 Future<void> main() async {
   // Discover devices
   final responses = await Yeelight.discover();
+  if (responses.isEmpty) {
+    print("Didn't find yeelight device in the network");
+    return;
+  }
   final response = responses.first;
   final device = Device(address: response.address, port: response.port!);
   // device.turnOn();
