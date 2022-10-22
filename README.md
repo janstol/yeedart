@@ -23,26 +23,26 @@ More info about Yeelight API:
 
 1. **Depend on it**
 
-Add this to your package's pubspec.yaml file:
+Run this command:
+
+With dart:
+```
+$ dart pub add yeedart
+```
+
+With flutter:
+```
+$ flutter pub add yeedart
+```
+
+This will add a line like this to your package's pubspec.yaml (and run an implicit `dart pub get`/`flutter pub get`):
+
 ```yaml
 dependencies:
-  yeedart: ^0.3.1+2
+  yeedart: ^0.3.2
 ```
-2. **Install it**
 
-You can install packages from the command line:
-
-with pub:
-```
-$ pub get
-```
-or with flutter:
-```
-$ flutter pub get
-```
-Alternatively, your editor might support `pub get` or `flutter pub get`. Check the docs for your editor to learn more.
-
-3. **Import it**
+2. **Import it**
 
 Now in your Dart code, you can use:
 ```dart

@@ -1,3 +1,6 @@
+## [0.3.2] - 2022-10-22
+* Fixed null check [#12](https://github.com/janstol/yeedart/issues/12) and updated all packages [#14](https://github.com/janstol/yeedart/issues/14) (thanks [@guyluz11](https://github.com/guyluz11))
+
 ## [0.3.1+2] - 2021-09-28
 * dart format
 
