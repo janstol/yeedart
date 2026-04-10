@@ -6,7 +6,7 @@ enum LightType {
   /// Background light.
   ///
   /// NOTE: Some devices don't have a background light.
-  backgroud,
+  background,
 
   /// Main and background light
   /// NOTE: used only for toggling.

@@ -1,7 +1,7 @@
 # Yeedart
 
-[![Pub](https://img.shields.io/pub/v/yeedart.svg?style=flat-square)](https://pub.dartlang.org/packages/yeedart)
-[![Build Status](https://travis-ci.com/janstol/yeedart.svg?branch=master)](https://travis-ci.com/janstol/yeedart)
+[![Pub](https://img.shields.io/pub/v/yeedart.svg?style=flat-square)](https://pub.dev/packages/yeedart)
+[![CI](https://github.com/janstol/yeedart/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/janstol/yeedart/actions/workflows/ci.yml)
 
 Dart library for controlling Yeelight products over LAN.
 
@@ -39,7 +39,7 @@ This will add a line like this to your package's pubspec.yaml (and run an implic
 
 ```yaml
 dependencies:
-  yeedart: ^0.3.2
+  yeedart: ^0.4.0
 ```
 
 2. **Import it**
@@ -101,7 +101,7 @@ for example `device.turnOff()`, new TCP connection will be created automatically
 
 ### Main and background light
 Some devices can be equiped with two lights: main and background. Methods in `Device` class control main light by default
-(for example `device.setRGB(color: Colors.red)` sets RGB color for main light. If you want to set RGB color for background light, you have to specify `lightType` parameter: `device.setRGB(color: Colors.red, lightType: LightType.backgroud);`.
+(for example `device.setRGB(color: Colors.red)` sets RGB color for main light. If you want to set RGB color for background light, you have to specify `lightType` parameter: `device.setRGB(color: Colors.red, lightType: LightType.background);`.
 
 You can also use `LightType.both` but **ONLY** for toggling: `device.toggle(lightType: LightType.both)`.
 
@@ -157,3 +157,15 @@ device.setScene(scene: Scene.color(color: 0xff0000, brightness: 100));
 Please file feature requests and bugs at the [issue tracker][tracker].
 
 [tracker]: https://github.com/janstol/yeedart/issues/
+
+## Development
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for contributor guidelines.
+This package uses [mise](https://mise.jdx.dev/) to pin the Dart SDK locally.
+
+```sh
+mise install
+mise exec dart pub get
+mise exec dart analyze
+mise exec dart test
+```

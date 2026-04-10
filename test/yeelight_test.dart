@@ -20,6 +20,18 @@ void main() {
     );
   });
 
+  test('discover() returns empty list when network is unreachable', () async {
+    final socket = MockRawDatagramSocket(
+      sendException: const SocketException(
+        'Send failed',
+        osError: OSError('Network is unreachable', 101),
+      ),
+      events: const Stream<RawSocketEvent>.empty(),
+    );
+
+    expect(await Yeelight.discover(socket: socket), <DiscoveryResponse>[]);
+  });
+
   test('createDiscoveryMessage() returns correct value', () {
     expect(
       Yeelight.createDiscoveryMessage(InternetAddress.loopbackIPv4, 1234),

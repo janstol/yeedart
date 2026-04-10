@@ -10,5 +10,5 @@ class FlowAction extends Enum<int> {
 
   const FlowAction.turnOff() : this._(2);
 
-  const FlowAction._(int value) : super(value);
+  const FlowAction._(super.value);
 }

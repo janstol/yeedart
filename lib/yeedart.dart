@@ -1,10 +1,8 @@
-/// Support for controlling Yeelight devices over LAN.
-///
-/// For more info or how to enable LAN access see:
-/// * https://www.yeelight.com/en_US/developer
-/// * https://www.yeelight.com/download/Yeelight_Inter-Operation_Spec.pdf
-library yeedart;
-
+// Support for controlling Yeelight devices over LAN.
+//
+// For more info or how to enable LAN access see:
+// * https://www.yeelight.com/en_US/developer
+// * https://www.yeelight.com/download/Yeelight_Inter-Operation_Spec.pdf
 export 'src/command/command.dart';
 export 'src/command/enum/adjust_action.dart';
 export 'src/command/enum/adjust_property.dart';

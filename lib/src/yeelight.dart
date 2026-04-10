@@ -7,6 +7,7 @@ import 'package:yeedart/src/response/discovery_response.dart';
 class Yeelight {
   static const _address = '239.255.255.250';
   static const _port = 1982;
+  static const _networkUnreachableErrors = <int>{51, 65, 101};
 
   /// Sends search message to discover Yeelight devices.
   ///
@@ -50,7 +51,15 @@ class Yeelight {
     );
 
     // send discovery message
-    udpSocket.send(utf8.encode(message), internetAddress, port);
+    try {
+      udpSocket.send(utf8.encode(message), internetAddress, port);
+    } on SocketException catch (e) {
+      udpSocket.close();
+      if (_isNetworkUnreachableException(e)) {
+        return responses;
+      }
+      rethrow;
+    }
 
     await for (final event in udpSocketEventStream) {
       if (event == RawSocketEvent.read) {
@@ -90,5 +99,16 @@ class Yeelight {
         'HOST: ${internetAddress.address}:$port\r\n'
         'MAN: "ssdp:discover"\r\n'
         'ST: wifi_bulb\r\n';
+  }
+
+  static bool _isNetworkUnreachableException(SocketException e) {
+    final errorCode = e.osError?.errorCode;
+    if (errorCode != null && _networkUnreachableErrors.contains(errorCode)) {
+      return true;
+    }
+
+    final message = (e.osError?.message ?? e.message).toLowerCase();
+    return message.contains('network is unreachable') ||
+        message.contains('no route to host');
   }
 }

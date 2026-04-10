@@ -1,3 +1,14 @@
+## [0.4.0] - 2026-04-10
+* raised the minimum supported SDK to Dart 3
+* updated dependencies
+* refreshed package metadata and contributor documentation
+* **BC:** fixed typo `LightType.backgroud` → `LightType.background`
+* fixed discovery to return empty results when the network is unreachable [#16](https://github.com/janstol/yeedart/issues/16)
+* fixed TCP response parsing for fragmented or extra-delimited messages [#18](https://github.com/janstol/yeedart/issues/18)
+* fixed stale TCP connection handling by reconnecting and retrying once on dropped sockets [#19](https://github.com/janstol/yeedart/issues/19)
+* fixed `DiscoveryResponse` parsing `firmwareVersion` from `port` field instead of `fw_ver`
+* fixed `DiscoveryResponse.supportedControls` not splitting on whitespace correctly
+
 ## [0.3.2] - 2022-10-22
 * Fixed null check [#12](https://github.com/janstol/yeedart/issues/12) and updated all packages [#14](https://github.com/janstol/yeedart/issues/14) (thanks [@guyluz11](https://github.com/guyluz11))
 

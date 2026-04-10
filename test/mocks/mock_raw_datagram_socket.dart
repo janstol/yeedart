@@ -6,7 +6,17 @@ import 'dart:typed_data';
 
 import '../fixtures/fixtures.dart';
 
-class MockRawDatagramSocket extends RawDatagramSocket {
+class MockRawDatagramSocket implements RawDatagramSocket {
+  final Stream<RawSocketEvent> _events;
+  final Datagram? datagram;
+  final SocketException? sendException;
+
+  MockRawDatagramSocket({
+    Stream<RawSocketEvent>? events,
+    this.datagram,
+    this.sendException,
+  }) : _events = events ?? Stream<RawSocketEvent>.value(RawSocketEvent.read);
+
   bool broadcastEnabled = true;
   int multicastHops = 1;
   bool multicastLoopback = true;
@@ -26,7 +36,7 @@ class MockRawDatagramSocket extends RawDatagramSocket {
     void onDone()?,
     bool? cancelOnError,
   }) {
-    return Stream<RawSocketEvent>.value(RawSocketEvent.read).listen(
+    return _events.listen(
       onData,
       onError: onError,
       onDone: onDone,
@@ -35,15 +45,30 @@ class MockRawDatagramSocket extends RawDatagramSocket {
   }
 
   @override
-  Datagram receive() {
-    final response = Uint8List.fromList(
-      utf8.encode(Fixtures.discoveryResponseRaw),
-    );
-    return Datagram(response, InternetAddress.loopbackIPv4, 1234);
+  Stream<RawSocketEvent> timeout(
+    Duration timeLimit, {
+    void Function(EventSink<RawSocketEvent> sink)? onTimeout,
+  }) {
+    return _events.timeout(timeLimit, onTimeout: onTimeout);
   }
 
   @override
-  int send(List<int> buffer, InternetAddress address, int port) => 0;
+  Datagram receive() {
+    return datagram ??
+        Datagram(
+          Uint8List.fromList(utf8.encode(Fixtures.discoveryResponseRaw)),
+          InternetAddress.loopbackIPv4,
+          1234,
+        );
+  }
+
+  @override
+  int send(List<int> buffer, InternetAddress address, int port) {
+    if (sendException != null) {
+      throw sendException!;
+    }
+    return 0;
+  }
 
   @override
   void close() {}
@@ -59,4 +84,7 @@ class MockRawDatagramSocket extends RawDatagramSocket {
 
   @override
   void setRawOption(RawSocketOption option) {}
+
+  @override
+  dynamic noSuchMethod(Invocation invocation) => null;
 }

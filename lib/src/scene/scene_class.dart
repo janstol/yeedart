@@ -18,5 +18,5 @@ class SceneClass extends Enum<String> {
   /// Change the device to specified color and brightness.
   const SceneClass.hsv() : this._('hsv');
 
-  const SceneClass._(String value) : super(value);
+  const SceneClass._(super.value);
 }

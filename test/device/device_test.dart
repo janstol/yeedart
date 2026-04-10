@@ -53,7 +53,7 @@ void main() {
     expect(
       await testDevice.setColorTemperature(
         id: id,
-        lightType: LightType.backgroud,
+        lightType: LightType.background,
         colorTemperature: 6500,
         effect: effect,
         duration: duration,
@@ -91,7 +91,7 @@ void main() {
     expect(
       await testDevice.setRGB(
         id: id,
-        lightType: LightType.backgroud,
+        lightType: LightType.background,
         color: 250,
         effect: effect,
         duration: duration,
@@ -130,7 +130,7 @@ void main() {
     expect(
       await testDevice.setHSV(
         id: id,
-        lightType: LightType.backgroud,
+        lightType: LightType.background,
         hue: 255,
         saturation: 45,
         effect: effect,
@@ -170,7 +170,7 @@ void main() {
     expect(
       await testDevice.setBrightness(
         id: id,
-        lightType: LightType.backgroud,
+        lightType: LightType.background,
         brightness: 75,
         effect: effect,
         duration: duration,
@@ -217,7 +217,7 @@ void main() {
     );
 
     expect(
-      await testDevice.toggle(id: id, lightType: LightType.backgroud),
+      await testDevice.toggle(id: id, lightType: LightType.background),
       CommandResponse(id: id, result: <dynamic>['ok'], error: null),
     );
 
@@ -234,7 +234,7 @@ void main() {
     );
 
     expect(
-      await testDevice.setDefault(id: id, lightType: LightType.backgroud),
+      await testDevice.setDefault(id: id, lightType: LightType.background),
       CommandResponse(id: id, result: <dynamic>['ok'], error: null),
     );
 
@@ -254,7 +254,7 @@ void main() {
 
     expect(
       await testDevice.startFlow(
-          id: id, lightType: LightType.backgroud, flow: flow),
+          id: id, lightType: LightType.background, flow: flow),
       CommandResponse(id: id, result: <dynamic>['ok'], error: null),
     );
 
@@ -271,7 +271,7 @@ void main() {
     );
 
     expect(
-      await testDevice.stopFlow(id: id, lightType: LightType.backgroud),
+      await testDevice.stopFlow(id: id, lightType: LightType.background),
       CommandResponse(id: id, result: <dynamic>['ok'], error: null),
     );
 
@@ -296,7 +296,7 @@ void main() {
     expect(
       await testDevice.setScene(
         id: id,
-        lightType: LightType.backgroud,
+        lightType: LightType.background,
         scene: scene,
       ),
       CommandResponse(id: id, result: <dynamic>['ok'], error: null),
@@ -352,7 +352,7 @@ void main() {
     expect(
       await testDevice.setAdjust(
         id: id,
-        lightType: LightType.backgroud,
+        lightType: LightType.background,
         action: action,
         property: property,
       ),
@@ -405,7 +405,7 @@ void main() {
     expect(
       await testDevice.adjustBrightness(
         id: id,
-        lightType: LightType.backgroud,
+        lightType: LightType.background,
         percentage: 50,
         duration: duration,
       ),
@@ -439,7 +439,7 @@ void main() {
     expect(
       await testDevice.adjustColorTemperature(
           id: id,
-          lightType: LightType.backgroud,
+          lightType: LightType.background,
           percentage: 50,
           duration: duration),
       CommandResponse(id: id, result: <dynamic>['ok'], error: null),
@@ -472,7 +472,7 @@ void main() {
     expect(
       await testDevice.adjustColor(
           id: id,
-          lightType: LightType.backgroud,
+          lightType: LightType.background,
           percentage: 50,
           duration: duration),
       CommandResponse(id: id, result: <dynamic>['ok'], error: null),

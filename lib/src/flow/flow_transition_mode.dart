@@ -2,7 +2,7 @@ import 'package:yeedart/src/util/enum.dart';
 
 /// Mode for [FlowTransition].
 class FlowTransitionMode extends Enum<int> {
-  const FlowTransitionMode._(int value) : super(value);
+  const FlowTransitionMode._(super.value);
 
   const FlowTransitionMode.color() : this._(1);
 

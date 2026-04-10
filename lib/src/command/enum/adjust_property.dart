@@ -7,5 +7,5 @@ class AdjustProperty extends Enum<String> {
 
   const AdjustProperty.colorTemperature() : this._('ct');
 
-  const AdjustProperty._(String value) : super(value);
+  const AdjustProperty._(super.value);
 }

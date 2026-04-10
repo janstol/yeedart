@@ -14,3 +14,4 @@ doc/api/
 *.iml
 /coverage/
 .fvm/
+*.local.*

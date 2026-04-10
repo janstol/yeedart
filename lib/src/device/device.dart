@@ -335,7 +335,7 @@ class Device {
   Future<CommandResponse?> toggle({int? id, LightType? lightType}) async {
     if (lightType == LightType.main) {
       return commandSender!.sendCommand(Command.toggle(id: id));
-    } else if (lightType == LightType.backgroud) {
+    } else if (lightType == LightType.background) {
       return commandSender!.sendCommand(Command.bgToggle(id: id));
     } else {
       return commandSender!.sendCommand(Command.devToggle(id: id));

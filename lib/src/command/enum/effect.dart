@@ -10,5 +10,5 @@ class Effect extends Enum<String> {
   /// will be changed directly to target value.
   const Effect.sudden() : this._('sudden');
 
-  const Effect._(String value) : super(value);
+  const Effect._(super.value);
 }

@@ -1,0 +1,7 @@
+.github/
+.travis.yml
+.fvm/
+coverage/
+doc/api/
+*.iml
+*.local.*

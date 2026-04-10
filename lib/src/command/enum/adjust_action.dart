@@ -11,5 +11,5 @@ class AdjustAction extends Enum<String> {
   /// Increase the specified property.
   const AdjustAction.increase() : this._('increase');
 
-  const AdjustAction._(String value) : super(value);
+  const AdjustAction._(super.value);
 }

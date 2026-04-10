@@ -1,17 +1,19 @@
 name: yeedart
-description: Simple Dart library that lets you control Yeelight devices over LAN.
-version: 0.3.2
+description: Control Yeelight smart lights and RGB strips over LAN via SSDP discovery and TCP commands.
+version: 0.4.0
 homepage: https://github.com/janstol/yeedart
+repository: https://github.com/janstol/yeedart
+issue_tracker: https://github.com/janstol/yeedart/issues
 
 environment:
-  sdk: '>=2.12.0 <3.0.0'
+  sdk: '>=3.0.0 <4.0.0'
 
 dependencies:
-  collection: ^1.17.0
-  meta: ^1.8.0
+  collection: ^1.19.1
+  meta: ^1.17.0
 
 dev_dependencies:
-  lint: ^1.10.0
-  mockito: ^5.3.2
-  path: ^1.8.2
-  test: ^1.21.6
+  lints: ^6.0.0
+  mockito: ^5.5.1
+  path: ^1.9.1
+  test: ^1.26.3

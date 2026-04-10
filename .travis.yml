@@ -1,5 +1,0 @@
-language: dart
-dart:
-  - stable
-install: dart pub get
-script: dart test
